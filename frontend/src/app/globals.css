@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+/* ─── Tema de Baja Estimulación para usuarios TEA ─── */
+@theme inline {
+  --color-principal: #2c3e50;
+  --color-fondo: #f4f7f6;
+  --color-exito: #a8d5ba;
+  --color-error: #f2d7d5;
+  --color-resaltado: #d6eaf8;
+  --color-blanco: #ffffff;
+  --color-texto: #2c3e50;
+  --color-texto-suave: #5d6d7e;
+  --color-borde: #d5dbdb;
+
+  --font-sans: "Inter", "Atkinson Hyperlegible", "Open Sans", sans-serif;
+
+  --radius-lg: 8px;
+  --radius-md: 6px;
+}
+
+/* ─── Base: tamaño 18px, interletrado alto, fondo neutro ─── */
+html {
+  font-size: 18px;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
+  font-family: var(--font-sans);
+  letter-spacing: 0.02em;
+  line-height: 1.6;
+}
+
+/* ─── Focus visible: anillo claro y predecible (WCAG 2.1) ─── */
+*:focus-visible {
+  outline: 2px solid var(--color-resaltado);
+  outline-offset: 2px;
+  border-radius: var(--radius-md);
+}
+
+/* ─── Única transición permitida: opacidad suave ─── */
+.transition-fade {
+  transition: opacity 300ms ease-in-out;
+}
+
+/* ─── Desactivar animaciones del sistema si el usuario lo prefiere ─── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
