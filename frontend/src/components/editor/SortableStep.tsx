@@ -128,9 +128,7 @@ export default function SortableStep({
       </span>
 
       {/* Texto del paso */}
-      <span
-        className={`flex-1 ${isDragging ? "font-semibold text-lg" : ""}`}
-      >
+      <span className={`flex-1 ${isDragging ? "font-semibold text-lg" : ""}`}>
         {step.text}
       </span>
 

@@ -61,7 +61,7 @@ export default function SequenceEditor({
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
-      activationConstraint: { 
+      activationConstraint: {
         distance: 3, // Reducido de 5 a 3 para respuesta más rápida
       },
     }),
@@ -224,33 +224,47 @@ export default function SequenceEditor({
 
       {isComplete && !isSandboxMode && (
         <div
-          className="mt-2 rounded-lg border border-exito bg-exito/20 p-4"
+          className="mt-4 rounded-2xl border-4 border-exito bg-gradient-to-br from-exito/30 to-exito/10 p-6 text-center shadow-lg"
           role="status"
           aria-live="polite"
         >
-          <h3 className="mb-2 font-semibold text-principal">
-            Nivel completado
+          {/* Icono de celebración */}
+          <div className="mb-4 text-6xl animate-bounce">🎉</div>
+
+          <h3 className="mb-2 text-2xl font-bold text-principal">
+            ¡Nivel completado!
           </h3>
-          <p className="mb-3 text-sm text-principal">
-            Lograste ordenar la secuencia usando {steps.length} pasos. Usaste:{" "}
-            {level.concept}.
+
+          <p className="mb-4 text-sm text-principal">
+            Ordenaste correctamente {steps.length} pasos usando{" "}
+            <strong>{level.concept}</strong>.
           </p>
-          <div className="flex flex-wrap gap-2">
+
+          {/* Indicador de progreso */}
+          <div className="mb-6 mx-auto max-w-xs">
+            <div className="flex items-center justify-center gap-2 text-sm font-semibold text-principal mb-2">
+              <span>+1 nivel completado</span>
+            </div>
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Button
-              aria-label="Ir al siguiente nivel para continuar aprendiendo"
+              aria-label="Continuar al siguiente nivel"
               onClick={handleNextLevel}
               disabled={
                 LEVELS.findIndex((l) => l.id === levelId) >= LEVELS.length - 1
               }
             >
-              Ir al siguiente nivel
+              {LEVELS.findIndex((l) => l.id === levelId) >= LEVELS.length - 1
+                ? "🏆 Módulo completado"
+                : "Siguiente nivel →"}
             </Button>
             <Button
               variant="secondary"
-              aria-label="Seguir experimentando libremente en este nivel sin verificación"
+              aria-label="Practicar más en este nivel"
               onClick={handleSandbox}
             >
-              Seguir experimentando libremente
+              Practicar más
             </Button>
           </div>
         </div>
