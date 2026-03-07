@@ -38,16 +38,18 @@ function shuffleArray(array: Step[]): Step[] {
 }
 
 interface SequenceEditorProps {
+  levelId: string;
   onResult: (result: ValidationResult | null) => void;
   onLevelComplete: () => void;
 }
 
 export default function SequenceEditor({
+  levelId,
   onResult,
   onLevelComplete,
 }: SequenceEditorProps) {
-  const level = LEVELS[0];
-  const { isSandboxMode, setSandboxMode } = useAppStore();
+  const level = LEVELS.find((l) => l.id === levelId) ?? LEVELS[0];
+  const { isSandboxMode, setSandboxMode, setCurrentLevel } = useAppStore();
 
   const initialSteps = useMemo(() => shuffleArray(level.steps), [level.steps]);
   const [steps, setSteps] = useState<Step[]>(initialSteps);
@@ -150,6 +152,14 @@ export default function SequenceEditor({
     onResult(null);
   }, [setSandboxMode, onResult]);
 
+  const handleNextLevel = useCallback(() => {
+    const currentIndex = LEVELS.findIndex((l) => l.id === levelId);
+    if (currentIndex < LEVELS.length - 1) {
+      const nextLevel = LEVELS[currentIndex + 1];
+      setCurrentLevel(nextLevel.id);
+    }
+  }, [levelId, setCurrentLevel]);
+
   const stepIds = steps.map((s) => s.id);
 
   return (
@@ -226,7 +236,10 @@ export default function SequenceEditor({
           <div className="flex flex-wrap gap-2">
             <Button
               aria-label="Ir al siguiente nivel para continuar aprendiendo"
-              onClick={() => alert("Próximo nivel: aún no implementado")}
+              onClick={handleNextLevel}
+              disabled={
+                LEVELS.findIndex((l) => l.id === levelId) >= LEVELS.length - 1
+              }
             >
               Ir al siguiente nivel
             </Button>

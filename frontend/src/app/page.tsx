@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { ValidationResult } from "@/types";
 import { LEVELS } from "@/utils/constants";
 import { useAppStore } from "@/store/useAppStore";
@@ -15,6 +15,12 @@ export default function Home() {
   const { markLevelComplete } = useProgress(currentUser);
   const [result, setResult] = useState<ValidationResult | null>(null);
   const [levelCompleted, setLevelCompleted] = useState(false);
+
+  // Reiniciar estado cuando cambia el nivel
+  useEffect(() => {
+    setResult(null);
+    setLevelCompleted(false);
+  }, [currentLevelId]);
 
   const currentLevel = LEVELS.find((l) => l.id === currentLevelId) ?? LEVELS[0];
 
@@ -34,6 +40,8 @@ export default function Home() {
         <ProgressPanel />
         <MainPanel>
           <SequenceEditor
+            key={currentLevelId}
+            levelId={currentLevelId}
             onResult={handleResult}
             onLevelComplete={handleLevelComplete}
           />
