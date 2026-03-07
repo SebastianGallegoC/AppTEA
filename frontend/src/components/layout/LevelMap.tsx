@@ -6,7 +6,11 @@ import { useAppStore } from "@/store/useAppStore";
 // Iconos para cada nivel (tipo Duolingo)
 const LEVEL_ICONS = ["🚶", "🥪", "🧼", "📱", "🎒"];
 
-export default function LevelMap() {
+interface LevelMapProps {
+  onLevelSelect?: () => void;
+}
+
+export default function LevelMap({ onLevelSelect }: LevelMapProps) {
   const { currentLevelId, completedLevels, setCurrentLevel } = useAppStore();
 
   const handleLevelClick = (levelId: string, index: number) => {
@@ -16,8 +20,12 @@ export default function LevelMap() {
       (index > 0 && completedLevels.includes(LEVELS[index - 1].id)) ||
       index === 0;
 
+    console.log("Click en nivel:", levelId, "isAccessible:", isAccessible);
+
     if (isAccessible) {
       setCurrentLevel(levelId);
+      console.log("Nivel cambiado a:", levelId);
+      onLevelSelect?.();
     }
   };
 

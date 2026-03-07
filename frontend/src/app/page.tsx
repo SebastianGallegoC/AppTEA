@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { ValidationResult } from "@/types";
 import { LEVELS } from "@/utils/constants";
 import { useAppStore } from "@/store/useAppStore";
@@ -17,6 +17,7 @@ export default function Home() {
   const [result, setResult] = useState<ValidationResult | null>(null);
   const [levelCompleted, setLevelCompleted] = useState(false);
   const [viewMode, setViewMode] = useState<"map" | "exercise">("map");
+  const isInitialMount = useRef(true);
 
   // Reiniciar estado cuando cambia el nivel
   useEffect(() => {
@@ -24,9 +25,20 @@ export default function Home() {
     setLevelCompleted(false);
   }, [currentLevelId]);
 
-  // Cambiar a vista de ejercicio cuando se selecciona un nivel
+  // Cambiar a vista de ejercicio cuando se selecciona un nivel (excepto en carga inicial)
   useEffect(() => {
+    console.log(
+      "useEffect ejecutado. isInitialMount:",
+      isInitialMount.current,
+      "currentLevelId:",
+      currentLevelId,
+    );
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
     if (currentLevelId) {
+      console.log("Cambiando a vista de ejercicio para nivel:", currentLevelId);
       setViewMode("exercise");
     }
   }, [currentLevelId]);
@@ -47,6 +59,11 @@ export default function Home() {
     setViewMode("map");
   }, []);
 
+  const handleLevelSelect = useCallback(() => {
+    console.log("handleLevelSelect llamado");
+    setViewMode("exercise");
+  }, []);
+
   return (
     <div className="min-h-screen bg-fondo">
       {/* Header tipo Duolingo */}
@@ -56,7 +73,7 @@ export default function Home() {
       />
 
       {/* Vista de Mapa (tipo Duolingo) */}
-      {viewMode === "map" && <LevelMap />}
+      {viewMode === "map" && <LevelMap onLevelSelect={handleLevelSelect} />}
 
       {/* Vista de Ejercicio (centrada, tipo Duolingo) */}
       {viewMode === "exercise" && (
