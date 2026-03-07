@@ -54,7 +54,7 @@ export default function SortableStep({
 
   const style = {
     transform: CSS.Transform.toString(transform),
-    transition,
+    transition: isDragging ? undefined : transition,
   };
 
   const isFirst = position === 1;
@@ -80,20 +80,20 @@ export default function SortableStep({
       role="listitem"
       aria-roledescription="elemento reordenable"
       aria-label={`Paso: ${step.text}. Posición ${position} de ${totalSteps}. Identificador visual: ${positionIcon}. Usa los botones de subir o bajar, o arrastra con el ratón.`}
-      className={`flex items-center gap-3 rounded-lg border-2 border-l-[6px] p-3 text-base text-principal transition-all ${
+      className={`flex items-center gap-3 rounded-lg border-2 border-l-[6px] p-3 text-base text-principal ${
         isDragging
           ? "border-resaltado bg-resaltado/30 shadow-xl scale-[1.02]"
           : hasError
-            ? "border-error bg-error/20"
-            : `border-borde ${bgStyle} hover:bg-resaltado/5`
+            ? "border-error bg-error/20 transition-colors duration-200"
+            : `border-borde ${bgStyle} hover:bg-resaltado/5 transition-colors duration-200`
       }`}
     >
       {/* Icono identificador visual único por posición */}
       <span
-        className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-2xl font-bold transition-all ${
+        className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-2xl font-bold ${
           isDragging
             ? "bg-resaltado text-principal scale-110 shadow-md"
-            : "bg-principal/10 text-principal"
+            : "bg-principal/10 text-principal transition-transform duration-150"
         }`}
         aria-hidden="true"
         title={`Identificador del paso ${position}`}
@@ -107,10 +107,10 @@ export default function SortableStep({
         {...attributes}
         {...listeners}
         aria-label={`Arrastrar el paso: ${step.text}`}
-        className={`flex h-10 shrink-0 cursor-grab items-center justify-center rounded-md border-2 px-3 text-xs font-semibold transition-all ${
+        className={`flex h-10 shrink-0 cursor-grab items-center justify-center rounded-md border-2 px-3 text-xs font-semibold ${
           isDragging
             ? "border-resaltado bg-resaltado text-principal shadow-md cursor-grabbing"
-            : "border-borde bg-fondo text-texto-suave hover:border-principal hover:bg-principal hover:text-blanco"
+            : "border-borde bg-fondo text-texto-suave hover:border-principal hover:bg-principal hover:text-blanco transition-colors duration-150"
         } focus-visible:outline-2 focus-visible:outline-resaltado focus-visible:outline-offset-2`}
       >
         {isDragging ? "●●●" : "☰"}
@@ -118,10 +118,10 @@ export default function SortableStep({
 
       {/* Número de posición prominente */}
       <span
-        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full font-bold text-blanco transition-all ${
+        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full font-bold text-blanco ${
           isDragging
             ? "bg-resaltado scale-125 shadow-lg ring-2 ring-resaltado ring-offset-2"
-            : "bg-principal"
+            : "bg-principal transition-transform duration-150"
         }`}
       >
         {position}
@@ -129,7 +129,7 @@ export default function SortableStep({
 
       {/* Texto del paso */}
       <span
-        className={`flex-1 transition-all ${isDragging ? "font-semibold text-lg" : ""}`}
+        className={`flex-1 ${isDragging ? "font-semibold text-lg" : ""}`}
       >
         {step.text}
       </span>

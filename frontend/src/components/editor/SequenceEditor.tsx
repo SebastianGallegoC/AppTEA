@@ -61,7 +61,9 @@ export default function SequenceEditor({
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
-      activationConstraint: { distance: 5 },
+      activationConstraint: { 
+        distance: 3, // Reducido de 5 a 3 para respuesta más rápida
+      },
     }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
