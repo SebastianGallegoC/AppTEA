@@ -19,15 +19,15 @@ export default function Header({
   return (
     <header className="sticky top-0 z-10 border-b-2 border-borde bg-blanco shadow-sm">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
-        {/* Botón de volver al mapa */}
+        {/* Botón de volver */}
         {onBackToMap && (
           <button
             onClick={onBackToMap}
-            aria-label="Volver al mapa de niveles"
+            aria-label="Volver atrás"
             className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold text-principal transition-colors hover:bg-fondo focus-visible:outline-2 focus-visible:outline-resaltado focus-visible:outline-offset-2"
           >
             <span className="text-xl">←</span>
-            <span className="hidden sm:inline">Mapa</span>
+            <span className="hidden sm:inline">Volver</span>
           </button>
         )}
 
@@ -58,9 +58,7 @@ export default function Header({
         {/* Logo o título de la app */}
         {!showProgress && (
           <div className="flex flex-1 items-center justify-center">
-            <h1 className="text-xl font-bold text-principal">
-               AppTEA
-            </h1>
+            <h1 className="text-xl font-bold text-principal">AppTEA</h1>
           </div>
         )}
 

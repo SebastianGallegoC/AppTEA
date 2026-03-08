@@ -8,15 +8,24 @@ import { useProgress } from "@/hooks/useProgress";
 import Header from "@/components/layout/Header";
 import LevelMap from "@/components/layout/LevelMap";
 import SequenceEditor from "@/components/editor/SequenceEditor";
+import TheorySection from "@/components/theory/TheorySection";
 import GlossaryTerm from "@/components/ui/GlossaryTerm";
 import { GLOSSARY } from "@/utils/constants";
 
 export default function Home() {
-  const { currentUser, currentLevelId, completeLevel } = useAppStore();
+  const {
+    currentUser,
+    currentLevelId,
+    completeLevel,
+    theoryCompleted,
+    completeTheory,
+  } = useAppStore();
   const { markLevelComplete } = useProgress(currentUser);
   const [result, setResult] = useState<ValidationResult | null>(null);
   const [levelCompleted, setLevelCompleted] = useState(false);
-  const [viewMode, setViewMode] = useState<"map" | "exercise">("map");
+  const [viewMode, setViewMode] = useState<"theory" | "map" | "exercise">(
+    "theory",
+  );
   const isInitialMount = useRef(true);
 
   // Reiniciar estado cuando cambia el nivel
@@ -52,6 +61,11 @@ export default function Home() {
     setViewMode("map");
   }, []);
 
+  const handleTheoryComplete = useCallback(() => {
+    completeTheory();
+    setViewMode("map");
+  }, [completeTheory]);
+
   const handleLevelSelect = useCallback(() => {
     setViewMode("exercise");
   }, []);
@@ -60,9 +74,23 @@ export default function Home() {
     <div className="min-h-screen bg-fondo">
       {/* Header tipo Duolingo */}
       <Header
-        onBackToMap={viewMode === "exercise" ? handleBackToMap : undefined}
+        onBackToMap={
+          viewMode === "exercise"
+            ? handleBackToMap
+            : viewMode === "map"
+              ? () => setViewMode("theory")
+              : undefined
+        }
         showProgress={viewMode === "exercise"}
       />
+
+      {/* Vista de Teoría */}
+      {viewMode === "theory" && (
+        <TheorySection
+          onComplete={handleTheoryComplete}
+          isCompleted={theoryCompleted}
+        />
+      )}
 
       {/* Vista de Mapa (tipo Duolingo) */}
       {viewMode === "map" && <LevelMap onLevelSelect={handleLevelSelect} />}

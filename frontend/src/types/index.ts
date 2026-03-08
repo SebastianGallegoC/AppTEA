@@ -29,3 +29,25 @@ export interface UserProgress {
   completedLevels: string[];
   currentLevel: string;
 }
+
+/* ─── Interfaces para la teoría ─── */
+
+export interface TheoryContentBlock {
+  type: "text" | "highlight" | "example" | "steps" | "image-description";
+  value?: string;
+  items?: string[];
+  emoji?: string;
+}
+
+export interface TheorySection {
+  title: string;
+  icon: string;
+  content: TheoryContentBlock[];
+}
+
+export interface ModuleTheory {
+  moduleId: string;
+  title: string;
+  description: string;
+  sections: TheorySection[];
+}

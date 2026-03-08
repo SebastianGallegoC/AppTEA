@@ -7,11 +7,13 @@ interface AppState {
   currentLevelId: string;
   completedLevels: string[];
   isSandboxMode: boolean;
+  theoryCompleted: boolean;
   setUser: (username: string | null) => void;
   setCurrentLevel: (levelId: string) => void;
   completeLevel: (levelId: string) => void;
   resetProgress: () => void;
   setSandboxMode: (active: boolean) => void;
+  completeTheory: () => void;
 }
 
 export const useAppStore = create<AppState>((set, get) => ({
@@ -19,6 +21,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   currentLevelId: "nivel-1-secuenciacion",
   completedLevels: [],
   isSandboxMode: false,
+  theoryCompleted: false,
 
   setUser: (username) => set({ currentUser: username }),
 
@@ -32,7 +35,10 @@ export const useAppStore = create<AppState>((set, get) => ({
     }
   },
 
-  resetProgress: () => set({ completedLevels: [], isSandboxMode: false }),
+  resetProgress: () =>
+    set({ completedLevels: [], isSandboxMode: false, theoryCompleted: false }),
 
   setSandboxMode: (active) => set({ isSandboxMode: active }),
+
+  completeTheory: () => set({ theoryCompleted: true }),
 }));

@@ -1,4 +1,4 @@
-import { Level } from "@/types";
+import { Level, ModuleTheory } from "@/types";
 
 export const LEVELS: Level[] = [
   {
@@ -202,6 +202,124 @@ export const LEVELS: Level[] = [
     ],
   },
 ];
+
+export const MODULE_THEORY: ModuleTheory = {
+  moduleId: "modulo-1",
+  title: "Módulo 1: ¿Qué es la Secuenciación?",
+  description:
+    "Aprende qué significa ordenar pasos y por qué es importante en la vida diaria y en la programación.",
+  sections: [
+    {
+      title: "¿Qué es una secuencia?",
+      icon: "📋",
+      content: [
+        {
+          type: "text",
+          value:
+            "Una secuencia es un conjunto de pasos que se realizan uno después de otro, siempre en el mismo orden. Es como seguir una receta o las instrucciones de un juego.",
+        },
+        {
+          type: "highlight",
+          value:
+            "En una secuencia, el orden importa mucho. Si cambias el orden de los pasos, el resultado puede ser diferente o incorrecto.",
+        },
+        {
+          type: "image-description",
+          emoji: "1️⃣➡️2️⃣➡️3️⃣",
+          value:
+            "Los pasos van uno después del otro, como eslabones de una cadena.",
+        },
+      ],
+    },
+    {
+      title: "Secuencias en la vida diaria",
+      icon: "🏠",
+      content: [
+        {
+          type: "text",
+          value:
+            "Todos los días usamos secuencias sin darnos cuenta. Cada vez que hacemos algo paso a paso, estamos ejecutando una secuencia.",
+        },
+        {
+          type: "example",
+          value:
+            "Para cepillarte los dientes sigues una secuencia: 1) Tomas el cepillo, 2) Pones pasta dental, 3) Cepillas los dientes, 4) Enjuagas tu boca, 5) Guardas el cepillo.",
+        },
+        {
+          type: "steps",
+          items: [
+            "Preparar el desayuno",
+            "Vestirte para salir",
+            "Cruzar la calle",
+            "Lavarte las manos",
+          ],
+        },
+        {
+          type: "highlight",
+          value:
+            "¿Qué pasaría si intentas cepillarte los dientes antes de poner la pasta? El resultado sería diferente.",
+        },
+      ],
+    },
+    {
+      title: "Secuencias en la programación",
+      icon: "💻",
+      content: [
+        {
+          type: "text",
+          value:
+            "En programación, una secuencia es la forma más básica de organizar instrucciones. El computador lee y ejecuta cada instrucción en el orden en que están escritas, de arriba hacia abajo.",
+        },
+        {
+          type: "highlight",
+          value:
+            "Un programa es como una lista de instrucciones. El computador las sigue una por una, en orden, sin saltarse ninguna.",
+        },
+        {
+          type: "example",
+          value:
+            "Instrucción 1: Mostrar 'Hola' → Instrucción 2: Esperar 2 segundos → Instrucción 3: Mostrar 'Adiós'. El computador primero muestra 'Hola', luego espera, y después muestra 'Adiós'.",
+        },
+        {
+          type: "image-description",
+          emoji: "🤖",
+          value:
+            "El computador ejecuta las instrucciones paso a paso, como un robot que sigue una lista.",
+        },
+      ],
+    },
+    {
+      title: "¿Por qué importa el orden?",
+      icon: "⚠️",
+      content: [
+        {
+          type: "text",
+          value:
+            "Si los pasos están en el orden incorrecto, el resultado puede ser muy diferente o incluso causar un error.",
+        },
+        {
+          type: "example",
+          value:
+            'Imagina que quieres hacer un sándwich: Si primero pones el jamón y luego sacas el pan... ¿dónde pondrías el jamón? ¡Necesitas el pan primero!',
+        },
+        {
+          type: "steps",
+          items: [
+            "Orden correcto = resultado esperado ✅",
+            "Orden incorrecto = resultado inesperado ❌",
+            "Cada paso depende del anterior",
+            "No se puede saltar pasos",
+          ],
+        },
+        {
+          type: "highlight",
+          value:
+            "En los niveles prácticos que verás a continuación, tu trabajo será ordenar los pasos correctamente. ¡Ya estás listo para practicar!",
+        },
+      ],
+    },
+  ],
+};
 
 export const GLOSSARY: Record<string, string> = {
   Secuenciación:
