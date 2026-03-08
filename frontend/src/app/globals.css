@@ -18,10 +18,22 @@
   --radius-md: 6px;
 }
 
-/* ─── Base: tamaño 18px, interletrado alto, fondo neutro ─── */
+/* ─── Base: tamaño responsive, interletrado alto, fondo neutro ─── */
 html {
-  font-size: 18px;
+  font-size: 16px;
   scroll-behavior: smooth;
+}
+
+@media (min-width: 640px) {
+  html {
+    font-size: 17px;
+  }
+}
+
+@media (min-width: 1024px) {
+  html {
+    font-size: 18px;
+  }
 }
 
 body {

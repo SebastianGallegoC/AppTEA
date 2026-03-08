@@ -27,18 +27,11 @@ export default function Home() {
 
   // Cambiar a vista de ejercicio cuando se selecciona un nivel (excepto en carga inicial)
   useEffect(() => {
-    console.log(
-      "useEffect ejecutado. isInitialMount:",
-      isInitialMount.current,
-      "currentLevelId:",
-      currentLevelId,
-    );
     if (isInitialMount.current) {
       isInitialMount.current = false;
       return;
     }
     if (currentLevelId) {
-      console.log("Cambiando a vista de ejercicio para nivel:", currentLevelId);
       setViewMode("exercise");
     }
   }, [currentLevelId]);
@@ -60,7 +53,6 @@ export default function Home() {
   }, []);
 
   const handleLevelSelect = useCallback(() => {
-    console.log("handleLevelSelect llamado");
     setViewMode("exercise");
   }, []);
 
@@ -77,9 +69,9 @@ export default function Home() {
 
       {/* Vista de Ejercicio (centrada, tipo Duolingo) */}
       {viewMode === "exercise" && (
-        <main className="mx-auto max-w-4xl px-4 py-8">
+        <main className="mx-auto max-w-4xl px-3 py-4 sm:px-4 sm:py-6 md:py-8">
           {/* Card del ejercicio */}
-          <div className="rounded-2xl border-2 border-borde bg-blanco p-6 shadow-lg md:p-8">
+          <div className="rounded-xl border-2 border-borde bg-blanco p-3 shadow-lg sm:p-5 sm:rounded-2xl md:p-8">
             <SequenceEditor
               key={currentLevelId}
               levelId={currentLevelId}
@@ -89,7 +81,7 @@ export default function Home() {
           </div>
 
           {/* Panel de información (abajo del ejercicio) */}
-          <div className="mt-6 rounded-2xl border-2 border-borde bg-blanco p-6 shadow-lg">
+          <div className="mt-4 rounded-xl border-2 border-borde bg-blanco p-4 shadow-lg sm:mt-6 sm:rounded-2xl sm:p-6">
             <h2 className="mb-4 text-lg font-semibold text-principal">
               💡 Concepto: Secuenciación
             </h2>
