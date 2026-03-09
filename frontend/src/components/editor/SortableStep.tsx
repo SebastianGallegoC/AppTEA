@@ -10,8 +10,6 @@ interface SortableStepProps {
   position: number;
   totalSteps: number;
   hasError: boolean;
-  onMoveUp: () => void;
-  onMoveDown: () => void;
 }
 
 // Iconos geométricos para identificación visual rápida
@@ -40,8 +38,6 @@ export default function SortableStep({
   position,
   totalSteps,
   hasError,
-  onMoveUp,
-  onMoveDown,
 }: SortableStepProps) {
   const {
     attributes,
@@ -69,6 +65,8 @@ export default function SortableStep({
   return (
     <li
       ref={setNodeRef}
+      {...attributes}
+      {...listeners}
       style={{
         ...style,
         borderLeftColor: isDragging
@@ -79,10 +77,10 @@ export default function SortableStep({
       }}
       role="listitem"
       aria-roledescription="elemento reordenable"
-      aria-label={`Paso: ${step.text}. Posición ${position} de ${totalSteps}. Identificador visual: ${positionIcon}. Usa los botones de subir o bajar, o arrastra con el ratón.`}
-      className={`flex flex-wrap items-center gap-2 rounded-lg border-2 border-l-[6px] p-2 text-sm text-principal sm:flex-nowrap sm:gap-3 sm:p-3 sm:text-base ${
+      aria-label={`Paso: ${step.text}. Posición ${position} de ${totalSteps}. Identificador visual: ${positionIcon}. Arrastra para reordenar.`}
+      className={`flex flex-wrap items-center gap-2 rounded-lg border-2 border-l-[6px] p-2 text-sm text-principal sm:flex-nowrap sm:gap-3 sm:p-3 sm:text-base cursor-grab active:cursor-grabbing ${
         isDragging
-          ? "border-resaltado bg-resaltado/30 shadow-xl scale-[1.02]"
+          ? "border-resaltado bg-resaltado/30 shadow-xl scale-[1.02] cursor-grabbing"
           : hasError
             ? "border-error bg-error/20 transition-colors duration-200"
             : `border-borde ${bgStyle} hover:bg-resaltado/5 transition-colors duration-200`
@@ -101,21 +99,6 @@ export default function SortableStep({
         {positionIcon}
       </span>
 
-      {/* Botón de arrastre con feedback visual */}
-      <button
-        type="button"
-        {...attributes}
-        {...listeners}
-        aria-label={`Arrastrar el paso: ${step.text}`}
-        className={`flex h-8 shrink-0 cursor-grab items-center justify-center rounded-md border-2 px-2 text-xs font-semibold sm:h-10 sm:px-3 ${
-          isDragging
-            ? "border-resaltado bg-resaltado text-principal shadow-md cursor-grabbing"
-            : "border-borde bg-fondo text-texto-suave hover:border-principal hover:bg-principal hover:text-blanco transition-colors duration-150"
-        } focus-visible:outline-2 focus-visible:outline-resaltado focus-visible:outline-offset-2`}
-      >
-        {isDragging ? "●●●" : "☰"}
-      </button>
-
       {/* Número de posición prominente */}
       <span
         className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-sm font-bold text-blanco sm:h-9 sm:w-9 sm:text-base ${
@@ -129,32 +112,10 @@ export default function SortableStep({
 
       {/* Texto del paso */}
       <span
-        className={`flex-1 min-w-0 ${isDragging ? "font-semibold sm:text-lg" : ""}`}
+        className={`flex-1 min-w-0 select-none ${isDragging ? "font-semibold sm:text-lg" : ""}`}
       >
         {step.text}
       </span>
-
-      {/* Botones de movimiento vertical */}
-      <div className="flex shrink-0 gap-1 sm:flex-col">
-        <button
-          type="button"
-          onClick={onMoveUp}
-          disabled={isFirst}
-          aria-label={`Subir el paso ${position} una posición arriba`}
-          className="flex h-7 items-center justify-center rounded border-2 border-borde bg-blanco px-2 text-[10px] font-bold text-principal transition-colors hover:bg-principal hover:text-blanco hover:border-principal disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-blanco disabled:hover:text-principal disabled:hover:border-borde focus-visible:outline-2 focus-visible:outline-resaltado focus-visible:outline-offset-2 sm:h-8 sm:w-16 sm:text-xs"
-        >
-          ▲ <span className="hidden sm:inline">Subir</span>
-        </button>
-        <button
-          type="button"
-          onClick={onMoveDown}
-          disabled={isLast}
-          aria-label={`Bajar el paso ${position} una posición abajo`}
-          className="flex h-7 items-center justify-center rounded border-2 border-borde bg-blanco px-2 text-[10px] font-bold text-principal transition-colors hover:bg-principal hover:text-blanco hover:border-principal disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-blanco disabled:hover:text-principal disabled:hover:border-borde focus-visible:outline-2 focus-visible:outline-resaltado focus-visible:outline-offset-2 sm:h-8 sm:w-16 sm:text-xs"
-        >
-          ▼ <span className="hidden sm:inline">Bajar</span>
-        </button>
-      </div>
     </li>
   );
 }

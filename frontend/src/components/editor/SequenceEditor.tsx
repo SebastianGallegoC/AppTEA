@@ -95,24 +95,6 @@ export default function SequenceEditor({
     [hasVerified, onResult],
   );
 
-  const moveStep = useCallback(
-    (index: number, direction: "up" | "down") => {
-      setSteps((current) => {
-        const newIndex = direction === "up" ? index - 1 : index + 1;
-        if (newIndex < 0 || newIndex >= current.length) return current;
-        return arrayMove(current, index, newIndex);
-      });
-
-      if (hasVerified) {
-        setHasVerified(false);
-        setResult(null);
-        setErrorStepId(null);
-        onResult(null);
-      }
-    },
-    [hasVerified, onResult],
-  );
-
   const handleVerify = useCallback(() => {
     setIsValidating(true);
     setResult(null);
@@ -197,8 +179,6 @@ export default function SequenceEditor({
                 position={index + 1}
                 totalSteps={steps.length}
                 hasError={errorStepId === step.id}
-                onMoveUp={() => moveStep(index, "up")}
-                onMoveDown={() => moveStep(index, "down")}
               />
             ))}
           </ol>
