@@ -5,7 +5,7 @@ import { LEVELS } from "@/utils/constants";
 import { useAppStore } from "@/store/useAppStore";
 
 // Iconos para cada nivel (tipo Duolingo)
-const LEVEL_ICONS = ["🚶", "🥪", "🧼", "📱", "🎒"];
+const LEVEL_ICONS = ["🚶", "📧", "📚", "📱", "🖨️"];
 
 interface LevelMapProps {
   onLevelSelect?: () => void;
