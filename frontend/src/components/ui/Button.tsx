@@ -3,7 +3,7 @@
 import { ButtonHTMLAttributes } from "react";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary";
+  variant?: "primary" | "secondary" | "danger";
   "aria-label": string;
 }
 
@@ -14,14 +14,16 @@ export default function Button({
   ...props
 }: ButtonProps) {
   const baseClasses =
-    "px-5 py-2.5 rounded-lg font-medium text-base transition-fade " +
+    "btn-3d px-6 py-3 rounded-xl font-bold text-base " +
     "focus-visible:outline-2 focus-visible:outline-resaltado focus-visible:outline-offset-2 " +
     "disabled:opacity-50 disabled:cursor-not-allowed";
 
   const variantClasses =
     variant === "primary"
-      ? "bg-principal text-blanco border border-principal hover:opacity-90"
-      : "bg-blanco text-principal border border-borde hover:opacity-90";
+      ? "btn-3d-primary"
+      : variant === "danger"
+        ? "btn-3d-danger"
+        : "btn-3d-secondary";
 
   return (
     <button

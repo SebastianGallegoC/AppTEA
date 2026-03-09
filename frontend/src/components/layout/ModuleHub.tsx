@@ -25,22 +25,38 @@ export default function ModuleHub({ onModuleSelect }: ModuleHubProps) {
     };
   };
 
+  const totalXP = completedLevels.length * 20;
+
   return (
-    <div className="min-h-[calc(100vh-4rem)] px-4 py-8 sm:px-6 md:px-8">
-      <div className="mx-auto max-w-3xl">
-        {/* Título y descripción */}
-        <div className="mb-8 text-center">
-          <h1 className="text-2xl font-bold text-principal sm:text-3xl">
+    <div className="min-h-[calc(100vh-3.5rem)] px-4 py-6 sm:px-6 md:px-8">
+      <div className="mx-auto max-w-2xl">
+        {/* Saludo y XP */}
+        <div className="mb-8">
+          <h1 className="text-2xl font-extrabold text-principal sm:text-3xl">
             Módulos de aprendizaje
           </h1>
           <p className="mt-2 text-sm text-texto-suave sm:text-base">
             Selecciona un módulo para comenzar a aprender programación paso a
             paso.
           </p>
+          {/* XP Banner */}
+          <div className="mt-4 card-duo p-4 flex items-center gap-4">
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-oro-suave text-3xl">
+              ⚡
+            </div>
+            <div className="flex-1">
+              <p className="text-sm font-bold text-principal">
+                Tienes {totalXP} EXP totales
+              </p>
+              <p className="text-xs text-texto-suave">
+                Cada nivel completado te da 20 EXP
+              </p>
+            </div>
+          </div>
         </div>
 
-        {/* Grid de módulos */}
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6">
+        {/* Grid de módulos estilo Duolingo */}
+        <div className="space-y-4">
           {MODULES.map((mod) => {
             const progress = getModuleProgress(mod);
             const isAvailable = mod.isAvailable;
@@ -52,61 +68,89 @@ export default function ModuleHub({ onModuleSelect }: ModuleHubProps) {
                 disabled={!isAvailable}
                 aria-label={
                   isAvailable
-                    ? `Módulo: ${mod.title}. ${mod.description}`
+                    ? `Módulo: ${mod.title}. ${mod.description}. Progreso: ${progress.percent} por ciento.`
                     : `Módulo: ${mod.title}. Próximamente.`
                 }
-                className={`group relative flex flex-col rounded-lg border-2 p-5 text-left transition-all sm:p-6
-                  ${
-                    isAvailable
-                      ? "border-borde bg-blanco cursor-pointer hover:border-principal hover:shadow-md focus-visible:outline-2 focus-visible:outline-resaltado focus-visible:outline-offset-2"
-                      : "border-borde/60 bg-blanco/60 cursor-not-allowed opacity-70"
-                  }`}
+                className={`card-duo w-full flex items-center gap-4 p-4 text-left transition-all sm:p-5 ${
+                  isAvailable
+                    ? "cursor-pointer hover:border-acento hover:shadow-md focus-visible:outline-2 focus-visible:outline-resaltado focus-visible:outline-offset-2"
+                    : "opacity-60 cursor-not-allowed"
+                }`}
               >
-                {/* Badge Próximamente */}
-                {!isAvailable && (
-                  <span className="absolute right-3 top-3 rounded-full bg-texto-suave/15 px-3 py-1 text-xs font-semibold text-texto-suave">
-                    Próximamente
-                  </span>
-                )}
-
-                {/* Icono */}
-                <span className="mb-3 text-4xl" role="img" aria-hidden="true">
-                  {mod.icon}
-                </span>
-
-                {/* Título */}
-                <h2
-                  className={`text-lg font-bold sm:text-xl ${isAvailable ? "text-principal" : "text-texto-suave"}`}
+                {/* Icono grande */}
+                <div
+                  className={`flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl text-3xl ${
+                    isAvailable
+                      ? progress.percent === 100
+                        ? "bg-exito/20"
+                        : "bg-resaltado/20"
+                      : "bg-borde/30"
+                  }`}
                 >
-                  {mod.title}
-                </h2>
+                  <span role="img" aria-hidden="true">
+                    {mod.icon}
+                  </span>
+                </div>
 
-                {/* Descripción */}
-                <p className="mt-1 text-sm leading-relaxed text-texto-suave">
-                  {mod.description}
-                </p>
-
-                {/* Barra de progreso (solo módulos disponibles) */}
-                {isAvailable && (
-                  <div className="mt-4">
-                    <div className="mb-1 flex items-center justify-between text-xs text-texto-suave">
-                      <span>Progreso</span>
-                      <span className="font-semibold">{progress.percent}%</span>
-                    </div>
-                    <div className="h-2.5 w-full overflow-hidden rounded-full bg-borde">
-                      <div
-                        className="h-full rounded-full bg-exito transition-all duration-300"
-                        style={{ width: `${progress.percent}%` }}
-                      />
-                    </div>
+                {/* Contenido */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2">
+                    <h2
+                      className={`text-base font-bold sm:text-lg ${
+                        isAvailable ? "text-principal" : "text-texto-suave"
+                      }`}
+                    >
+                      {mod.title}
+                    </h2>
+                    {!isAvailable && (
+                      <span className="rounded-full bg-borde px-2.5 py-0.5 text-[10px] font-bold text-texto-suave">
+                        PRÓXIMAMENTE
+                      </span>
+                    )}
+                    {isAvailable && progress.percent === 100 && (
+                      <span className="rounded-full bg-exito/20 px-2.5 py-0.5 text-[10px] font-bold text-exito-oscuro">
+                        COMPLETADO
+                      </span>
+                    )}
                   </div>
-                )}
 
-                {/* Indicador de niveles */}
-                {isAvailable && (
-                  <p className="mt-3 text-xs font-medium text-texto-suave">
-                    {progress.completed} / {progress.total} niveles completados
+                  <p className="mt-0.5 text-xs leading-relaxed text-texto-suave sm:text-sm line-clamp-2">
+                    {mod.description}
                   </p>
+
+                  {/* Barra de progreso */}
+                  {isAvailable && (
+                    <div className="mt-3">
+                      <div className="progress-bar-duo" style={{ height: 10 }}>
+                        <div
+                          className="fill bg-exito"
+                          style={{ width: `${progress.percent}%` }}
+                        />
+                      </div>
+                      <p className="mt-1 text-[10px] font-semibold text-texto-suave">
+                        {progress.completed} / {progress.total} niveles
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                {/* Flecha */}
+                {isAvailable && (
+                  <div className="shrink-0 text-borde">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="h-5 w-5"
+                      aria-hidden="true"
+                    >
+                      <polyline points="9 18 15 12 9 6" />
+                    </svg>
+                  </div>
                 )}
               </button>
             );

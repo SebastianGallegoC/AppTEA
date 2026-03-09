@@ -1,16 +1,27 @@
 @import "tailwindcss";
 
-/* ─── Variables base de color (modo claro por defecto) ─── */
+/* ─── Variables base de color — Duolingo TEA (baja estimulación) ─── */
 :root {
   --tea-principal: #2c3e50;
-  --tea-fondo: #f4f7f6;
-  --tea-exito: #a8d5ba;
+  --tea-fondo: #f7f7f7;
+  --tea-exito: #6bb577;
+  --tea-exito-oscuro: #4e9a5e;
   --tea-error: #f2d7d5;
+  --tea-error-oscuro: #d4736c;
   --tea-resaltado: #d6eaf8;
   --tea-blanco: #ffffff;
-  --tea-texto: #2c3e50;
-  --tea-texto-suave: #5d6d7e;
-  --tea-borde: #d5dbdb;
+  --tea-texto: #3c3c3c;
+  --tea-texto-suave: #777777;
+  --tea-borde: #e5e5e5;
+  --tea-sidebar: #ffffff;
+  --tea-sidebar-hover: #f0f0f0;
+  --tea-sidebar-active: #ddf4ff;
+  --tea-acento: #58a65c;
+  --tea-oro: #e8b730;
+  --tea-oro-suave: #fdf0c8;
+  --tea-corazon: #e05d5d;
+  --tea-gema: #49bfee;
+  --tea-card-shadow: rgba(0, 0, 0, 0.06);
 }
 
 /* ─── Modo oscuro: baja estimulación nocturna ─── */
@@ -18,12 +29,23 @@ html.dark {
   --tea-principal: #d0d8e0;
   --tea-fondo: #1a1f25;
   --tea-exito: #3a6b4a;
+  --tea-exito-oscuro: #2d5339;
   --tea-error: #6b3a3a;
+  --tea-error-oscuro: #4d2a2a;
   --tea-resaltado: #2a4a6b;
   --tea-blanco: #242a32;
   --tea-texto: #d0d8e0;
   --tea-texto-suave: #8a99a8;
   --tea-borde: #3a4450;
+  --tea-sidebar: #1e2530;
+  --tea-sidebar-hover: #2a3340;
+  --tea-sidebar-active: #1e3a5f;
+  --tea-acento: #4e9a5e;
+  --tea-oro: #c99e28;
+  --tea-oro-suave: #3a3420;
+  --tea-corazon: #b84a4a;
+  --tea-gema: #3a98c0;
+  --tea-card-shadow: rgba(0, 0, 0, 0.2);
 }
 
 /* ─── Tema Tailwind referencia las variables ─── */
@@ -31,17 +53,29 @@ html.dark {
   --color-principal: var(--tea-principal);
   --color-fondo: var(--tea-fondo);
   --color-exito: var(--tea-exito);
+  --color-exito-oscuro: var(--tea-exito-oscuro);
   --color-error: var(--tea-error);
+  --color-error-oscuro: var(--tea-error-oscuro);
   --color-resaltado: var(--tea-resaltado);
   --color-blanco: var(--tea-blanco);
   --color-texto: var(--tea-texto);
   --color-texto-suave: var(--tea-texto-suave);
   --color-borde: var(--tea-borde);
+  --color-sidebar: var(--tea-sidebar);
+  --color-sidebar-hover: var(--tea-sidebar-hover);
+  --color-sidebar-active: var(--tea-sidebar-active);
+  --color-acento: var(--tea-acento);
+  --color-oro: var(--tea-oro);
+  --color-oro-suave: var(--tea-oro-suave);
+  --color-corazon: var(--tea-corazon);
+  --color-gema: var(--tea-gema);
+  --color-card-shadow: var(--tea-card-shadow);
 
   --font-sans: "Inter", "Atkinson Hyperlegible", "Open Sans", sans-serif;
 
-  --radius-lg: 8px;
-  --radius-md: 6px;
+  --radius-xl: 16px;
+  --radius-lg: 12px;
+  --radius-md: 8px;
 }
 
 /* ─── Base: tamaño responsive, interletrado alto, fondo neutro ─── */
@@ -77,9 +111,117 @@ body {
   border-radius: var(--radius-md);
 }
 
-/* ─── Única transición permitida: opacidad suave ─── */
+/* ─── Transiciones permitidas: opacidad y colores suaves ─── */
 .transition-fade {
   transition: opacity 300ms ease-in-out;
+}
+
+/* ─── Botón 3D estilo Duolingo ─── */
+.btn-3d {
+  position: relative;
+  border-bottom: 4px solid transparent;
+  transform: translateY(0);
+  transition:
+    transform 100ms ease,
+    border-color 100ms ease,
+    opacity 200ms ease;
+}
+
+.btn-3d:active:not(:disabled) {
+  transform: translateY(2px);
+  border-bottom-width: 2px;
+}
+
+.btn-3d-primary {
+  background-color: var(--color-exito);
+  border-bottom-color: var(--color-exito-oscuro);
+  color: #ffffff;
+}
+
+.btn-3d-primary:hover:not(:disabled) {
+  opacity: 0.92;
+}
+
+.btn-3d-secondary {
+  background-color: var(--color-blanco);
+  border-bottom-color: var(--color-borde);
+  color: var(--color-principal);
+  border: 2px solid var(--color-borde);
+  border-bottom-width: 4px;
+}
+
+.btn-3d-secondary:hover:not(:disabled) {
+  background-color: var(--color-fondo);
+}
+
+.btn-3d-danger {
+  background-color: var(--color-error);
+  border-bottom-color: var(--color-error-oscuro);
+  color: #ffffff;
+}
+
+/* ─── Card Duolingo-style ─── */
+.card-duo {
+  background-color: var(--color-blanco);
+  border: 2px solid var(--color-borde);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 2px 8px var(--color-card-shadow);
+}
+
+/* ─── Stat badge (XP, gemas, corazones) ─── */
+.stat-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* ─── Sidebar nav item ─── */
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: var(--radius-lg);
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--color-texto-suave);
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+  text-decoration: none;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.sidebar-item:hover {
+  background-color: var(--color-sidebar-hover);
+  color: var(--color-texto);
+}
+
+.sidebar-item.active {
+  background-color: var(--color-sidebar-active);
+  color: var(--color-principal);
+  border-color: var(--color-resaltado);
+  font-weight: 700;
+}
+
+/* ─── Progress bar Duolingo-style ─── */
+.progress-bar-duo {
+  height: 14px;
+  border-radius: 99px;
+  background-color: var(--color-borde);
+  overflow: hidden;
+}
+
+.progress-bar-duo .fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 400ms ease;
 }
 
 /* ─── Desactivar animaciones del sistema si el usuario lo prefiere ─── */

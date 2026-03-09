@@ -20,9 +20,15 @@ export default function StatusBanner({
   }, [visible]);
 
   const typeClasses: Record<string, string> = {
-    success: "bg-exito text-principal border-exito",
-    error: "bg-error text-principal border-error",
-    info: "bg-resaltado text-principal border-resaltado",
+    success: "bg-exito/15 text-principal border-exito/40",
+    error: "bg-error/40 text-principal border-error-oscuro/30",
+    info: "bg-resaltado/20 text-principal border-resaltado/40",
+  };
+
+  const icons: Record<string, string> = {
+    success: "✅",
+    error: "⚠️",
+    info: "ℹ️",
   };
 
   return (
@@ -30,10 +36,13 @@ export default function StatusBanner({
       role="status"
       aria-live="polite"
       aria-atomic="true"
-      className={`rounded-lg border p-4 text-base transition-fade ${
+      className={`flex items-center gap-3 rounded-xl border-2 p-4 text-sm font-medium transition-fade ${
         typeClasses[type]
       } ${show ? "opacity-100" : "opacity-0"}`}
     >
+      <span className="text-lg" aria-hidden="true">
+        {icons[type]}
+      </span>
       {message}
     </div>
   );

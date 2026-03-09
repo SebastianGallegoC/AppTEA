@@ -140,15 +140,15 @@ export default function LevelMap({
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center bg-fondo px-3 py-6 md:px-4 md:py-8">
-      {/* Header */}
+    <div className="flex min-h-[calc(100vh-3.5rem)] flex-col items-center bg-fondo px-3 py-6 md:px-4 md:py-8">
+      {/* Header del módulo */}
       <div className="mb-6 w-full max-w-2xl md:mb-8">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-principal md:text-3xl">
+            <h1 className="text-2xl font-extrabold text-principal md:text-3xl">
               {currentModule?.title ?? "Módulo"}
             </h1>
-            <p className="mt-1 text-base text-texto-suave md:mt-2 md:text-lg">
+            <p className="mt-1 text-sm text-texto-suave md:text-base">
               Completa todos los niveles para dominar{" "}
               {(currentModule?.concept ?? "el módulo").toLowerCase()}
             </p>
@@ -156,7 +156,7 @@ export default function LevelMap({
           {onReviewTheory && (
             <button
               onClick={onReviewTheory}
-              className="shrink-0 inline-flex items-center gap-2 rounded-lg border-2 border-resaltado bg-resaltado/10 px-4 py-2 text-sm font-semibold text-principal transition-colors hover:bg-resaltado/20 focus-visible:outline-2 focus-visible:outline-resaltado focus-visible:outline-offset-2"
+              className="btn-3d btn-3d-secondary shrink-0 inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-bold focus-visible:outline-2 focus-visible:outline-resaltado focus-visible:outline-offset-2"
             >
               <span>📖</span>
               Repasar teoría
@@ -165,19 +165,19 @@ export default function LevelMap({
         </div>
       </div>
 
-      {/* Barra de progreso general */}
+      {/* Barra de progreso */}
       <div className="mb-8 w-full max-w-2xl md:mb-12">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-xs font-semibold text-principal md:text-sm">
+          <span className="text-xs font-bold text-principal md:text-sm">
             Progreso del módulo
           </span>
-          <span className="text-xs font-semibold text-principal md:text-sm">
+          <span className="text-xs font-bold text-texto-suave md:text-sm">
             {moduleCompletedCount} / {moduleLevels.length}
           </span>
         </div>
-        <div className="h-3 w-full rounded-full bg-borde overflow-hidden md:h-4">
+        <div className="progress-bar-duo">
           <div
-            className="h-full bg-exito transition-all duration-500"
+            className="fill bg-exito"
             style={{
               width: `${(moduleCompletedCount / moduleLevels.length) * 100}%`,
             }}
@@ -186,13 +186,13 @@ export default function LevelMap({
       </div>
 
       {/* Mapa de niveles */}
-      <div className="relative w-full overflow-x-auto pb-8 pt-4 md:pb-16 md:pt-8">
+      <div className="relative w-full overflow-x-hidden pb-8 pt-4 md:pb-16 md:pt-8">
         <div
           ref={containerRef}
           className={`relative ${
             isMobile
               ? "flex flex-col items-center px-4 py-8 gap-0"
-              : "inline-flex min-w-full justify-center px-24 py-20"
+              : "flex w-full justify-center px-8 py-20"
           }`}
         >
           {/* SVG overlay para las líneas conectoras */}
@@ -201,14 +201,18 @@ export default function LevelMap({
             width="100%"
             height="100%"
             style={{ overflow: "visible" }}
+            aria-hidden="true"
           >
             {lines.map((line, i) => (
               <path
                 key={i}
                 d={generateCurvePath(line)}
-                stroke={line.completed ? "#a8d5ba" : "#d5dbdb"}
-                strokeWidth="3"
+                stroke={
+                  line.completed ? "var(--tea-exito)" : "var(--tea-borde)"
+                }
+                strokeWidth="4"
                 strokeLinecap="round"
+                strokeDasharray={line.completed ? "none" : "8 6"}
                 fill="none"
               />
             ))}
@@ -232,7 +236,6 @@ export default function LevelMap({
                   completedLevels.includes(moduleLevels[index - 1].id)) ||
                 index === 0;
 
-              // En móvil: zigzag horizontal; en desktop: zigzag vertical
               const position = index % 3;
               const translateClass = isMobile
                 ? position === 0
@@ -263,26 +266,31 @@ export default function LevelMap({
                             ? "Disponible. Haz clic para acceder."
                             : "Bloqueado. Completa el nivel anterior primero."
                     }`}
-                    className={`group relative transform transition-all duration-300 ${
+                    className={`group relative ${
                       isAccessible
-                        ? "hover:scale-110 cursor-pointer"
-                        : "cursor-not-allowed opacity-70"
-                    } ${isCurrent ? "animate-pulse" : ""}`}
+                        ? "cursor-pointer"
+                        : "cursor-not-allowed opacity-60"
+                    }`}
                   >
+                    {/* Anillo exterior decorativo para nivel actual */}
+                    {isCurrent && (
+                      <div className="absolute -inset-2 rounded-full border-4 border-resaltado/40 md:-inset-3" />
+                    )}
+
                     {/* Círculo principal */}
                     <div
                       ref={(el) => {
                         circleRefs.current[index] = el;
                       }}
-                      className={`relative flex items-center justify-center rounded-full border-4 shadow-lg transition-all bg-blanco
-                        h-16 w-16 md:h-24 md:w-24 ${
+                      className={`relative flex items-center justify-center rounded-full border-4 bg-blanco
+                        h-18 w-18 md:h-24 md:w-24 ${
                           isCurrent
-                            ? "border-resaltado shadow-resaltado/50"
+                            ? "border-acento shadow-lg shadow-acento/30"
                             : isCompleted
-                              ? "border-exito shadow-exito/50"
+                              ? "border-exito shadow-lg shadow-exito/20"
                               : isAccessible
-                                ? "border-principal shadow-principal/50"
-                                : "border-borde shadow-gray-300"
+                                ? "border-principal shadow-md"
+                                : "border-borde"
                         }`}
                     >
                       <span className="text-3xl md:text-5xl">
@@ -292,15 +300,11 @@ export default function LevelMap({
                       </span>
 
                       {isCompleted && (
-                        <div className="absolute -top-1.5 -right-1.5 flex h-6 w-6 items-center justify-center rounded-full bg-blanco border-2 border-exito shadow-md md:-top-2 md:-right-2 md:h-8 md:w-8">
-                          <span className="text-sm text-exito font-bold md:text-lg">
+                        <div className="absolute -top-1 -right-1 flex h-7 w-7 items-center justify-center rounded-full bg-exito border-2 border-blanco shadow md:-top-1.5 md:-right-1.5 md:h-8 md:w-8">
+                          <span className="text-xs text-white font-bold md:text-sm">
                             ✓
                           </span>
                         </div>
-                      )}
-
-                      {isCurrent && (
-                        <div className="absolute inset-0 rounded-full bg-resaltado opacity-30 blur-md animate-pulse" />
                       )}
                     </div>
                   </button>
@@ -311,7 +315,7 @@ export default function LevelMap({
                       Nivel {index + 1}
                     </p>
                     {isAccessible && !isCompleted && (
-                      <span className="inline-block mt-1 rounded-full bg-blanco border-2 border-principal px-3 py-0.5 text-[10px] font-bold text-principal shadow-sm md:px-4 md:py-1 md:text-xs">
+                      <span className="btn-3d btn-3d-primary inline-block mt-1.5 rounded-xl px-4 py-1 text-[10px] font-bold md:px-5 md:py-1.5 md:text-xs">
                         {index === 0 ? "EMPEZAR" : "INICIAR"}
                       </span>
                     )}
@@ -324,11 +328,11 @@ export default function LevelMap({
             <div className="relative flex flex-col items-center">
               <div
                 ref={trophyRef}
-                className={`flex items-center justify-center rounded-full border-4 shadow-lg bg-blanco
-                  h-16 w-16 md:h-24 md:w-24 ${
+                className={`flex items-center justify-center rounded-full border-4 bg-blanco
+                  h-18 w-18 md:h-24 md:w-24 ${
                     moduleCompletedCount === moduleLevels.length
-                      ? "border-exito shadow-exito/50"
-                      : "border-borde shadow-gray-300"
+                      ? "border-oro shadow-lg shadow-oro/30"
+                      : "border-borde"
                   }`}
               >
                 <span className="text-3xl md:text-5xl">
@@ -336,7 +340,7 @@ export default function LevelMap({
                 </span>
               </div>
               {moduleCompletedCount === moduleLevels.length && (
-                <p className="mt-2 text-xs font-bold text-exito whitespace-nowrap md:text-sm">
+                <p className="mt-2 text-xs font-bold text-oro whitespace-nowrap md:text-sm">
                   ¡Completado!
                 </p>
               )}

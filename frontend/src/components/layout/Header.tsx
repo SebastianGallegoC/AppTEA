@@ -27,37 +27,48 @@ export default function Header({
     (l) => l.id === currentLevelId,
   );
   const currentLevel = moduleLevels[currentLevelIndex];
+  const xp = completedLevels.length * 20;
 
   return (
-    <header className="sticky top-0 z-10 border-b-2 border-borde bg-blanco shadow-sm">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
+    <header className="sticky top-0 z-30 border-b-2 border-borde bg-sidebar">
+      <div className="mx-auto flex h-14 items-center justify-between px-4 lg:pl-60 xl:pr-76">
         {/* Botón de volver */}
-        {onBackToMap && (
-          <button
-            onClick={onBackToMap}
-            aria-label="Volver atrás"
-            className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold text-principal transition-colors hover:bg-fondo focus-visible:outline-2 focus-visible:outline-resaltado focus-visible:outline-offset-2"
-          >
-            <span className="text-xl">←</span>
-            <span className="hidden sm:inline">Volver</span>
-          </button>
-        )}
+        <div className="flex items-center gap-3">
+          {onBackToMap && (
+            <button
+              onClick={onBackToMap}
+              aria-label="Volver atrás"
+              className="flex items-center justify-center h-9 w-9 rounded-lg border-2 border-borde text-principal transition-colors hover:bg-sidebar-hover focus-visible:outline-2 focus-visible:outline-resaltado focus-visible:outline-offset-2"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="h-5 w-5"
+                aria-hidden="true"
+              >
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+            </button>
+          )}
 
-        {/* Título del nivel actual (en vista de ejercicio) */}
+          {/* Logo mobile */}
+          <span className="lg:hidden text-lg font-extrabold text-acento">
+            AppTEA
+          </span>
+        </div>
+
+        {/* Barra de progreso central (en vista de ejercicio) */}
         {showProgress && currentLevel && (
-          <div className="flex flex-1 items-center justify-center">
-            <div className="max-w-md flex-1">
-              <div className="mb-1 flex items-center justify-between text-xs text-texto-suave">
-                <span className="font-semibold">
-                  Nivel {currentLevelIndex + 1}
-                </span>
-                <span>
-                  {currentLevelIndex + 1} / {moduleLevels.length}
-                </span>
-              </div>
-              <div className="h-3 w-full overflow-hidden rounded-full bg-borde">
+          <div className="flex flex-1 items-center justify-center max-w-sm mx-4">
+            <div className="w-full">
+              <div className="progress-bar-duo">
                 <div
-                  className="h-full bg-principal transition-all duration-300"
+                  className="fill bg-exito"
                   style={{
                     width: `${((currentLevelIndex + 1) / moduleLevels.length) * 100}%`,
                   }}
@@ -67,74 +78,52 @@ export default function Header({
           </div>
         )}
 
-        {/* Logo o título de la app */}
+        {/* Título centrado cuando no hay progreso */}
         {!showProgress && (
-          <div className="flex flex-1 items-center justify-center">
-            <h1 className="text-xl font-bold text-principal">AppTEA</h1>
+          <div className="hidden lg:flex flex-1 items-center justify-center">
+            {currentModule && (
+              <span className="text-sm font-bold text-principal">
+                {currentModule.title}
+              </span>
+            )}
           </div>
         )}
 
-        {/* Estadísticas y controles */}
-        <div className="flex items-center gap-3">
-          {/* Modo oscuro */}
+        {/* Stats badges estilo Duolingo */}
+        <div className="flex items-center gap-2">
+          {/* XP */}
+          <div
+            className="stat-badge bg-oro-suave text-principal"
+            title="Puntos de experiencia"
+          >
+            <span aria-hidden="true">⚡</span>
+            <span>{xp}</span>
+          </div>
+
+          {/* Niveles completados */}
+          <div
+            className="stat-badge bg-exito/15 text-principal"
+            title="Niveles completados"
+          >
+            <span aria-hidden="true">✅</span>
+            <span>{completedLevels.length}</span>
+          </div>
+
+          {/* Dark mode - solo mobile */}
           <button
-            onClick={() => {
-              toggleDarkMode();
-            }}
+            onClick={toggleDarkMode}
             aria-label={
               isDarkMode ? "Cambiar a modo claro" : "Cambiar a modo oscuro"
             }
-            className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-borde transition-colors hover:bg-fondo focus-visible:outline-2 focus-visible:outline-resaltado focus-visible:outline-offset-2"
+            className="lg:hidden flex h-9 w-9 items-center justify-center rounded-full border-2 border-borde text-lg transition-colors hover:bg-sidebar-hover focus-visible:outline-2 focus-visible:outline-resaltado focus-visible:outline-offset-2"
           >
-            {isDarkMode ? (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="h-5 w-5 text-principal"
-              >
-                <circle cx="12" cy="12" r="5" />
-                <line x1="12" y1="1" x2="12" y2="3" />
-                <line x1="12" y1="21" x2="12" y2="23" />
-                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-                <line x1="1" y1="12" x2="3" y2="12" />
-                <line x1="21" y1="12" x2="23" y2="12" />
-                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-              </svg>
-            ) : (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="h-5 w-5 text-principal"
-              >
-                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-              </svg>
-            )}
+            {isDarkMode ? "☀️" : "🌙"}
           </button>
 
-          {/* Racha/Progreso */}
-          <div className="flex items-center gap-1 rounded-lg bg-exito/20 px-3 py-1.5">
-            <span className="text-lg">✓</span>
-            <span className="text-sm font-bold text-principal">
-              {completedLevels.length}
-            </span>
-          </div>
-
-          {/* Botón de usuario (placeholder) */}
+          {/* Avatar */}
           <button
             aria-label="Perfil de usuario"
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-principal text-lg text-blanco transition-transform hover:scale-105 focus-visible:outline-2 focus-visible:outline-resaltado focus-visible:outline-offset-2"
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-acento text-sm font-bold text-white transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-resaltado focus-visible:outline-offset-2"
           >
             👤
           </button>

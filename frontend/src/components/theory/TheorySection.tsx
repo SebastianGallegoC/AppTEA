@@ -36,36 +36,38 @@ export default function TheorySection({
   const section = theory.sections[currentPage];
 
   return (
-    <div className="flex min-h-screen flex-col items-center bg-fondo px-3 py-6 md:px-4 md:py-8">
+    <div className="flex min-h-[calc(100vh-3.5rem)] flex-col items-center bg-fondo px-3 py-6 md:px-4 md:py-8">
       {/* Header del módulo */}
       <div className="mb-6 w-full max-w-2xl md:mb-8">
         <div className="flex items-center gap-2 mb-2">
-          <span className="text-2xl">📖</span>
+          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-resaltado/20 text-lg">
+            📖
+          </span>
           <span className="rounded-full bg-resaltado/30 px-3 py-0.5 text-xs font-bold text-principal">
             TEORÍA
           </span>
         </div>
-        <h1 className="text-2xl font-bold text-principal md:text-3xl">
+        <h1 className="text-2xl font-extrabold text-principal md:text-3xl">
           {theory.title}
         </h1>
-        <p className="mt-1 text-base text-texto-suave md:mt-2 md:text-lg">
+        <p className="mt-1 text-sm text-texto-suave md:text-base">
           {theory.description}
         </p>
       </div>
 
-      {/* Barra de progreso de la teoría */}
+      {/* Barra de progreso */}
       <div className="mb-6 w-full max-w-2xl md:mb-8">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-xs font-semibold text-principal md:text-sm">
+          <span className="text-xs font-bold text-principal md:text-sm">
             Progreso de la teoría
           </span>
-          <span className="text-xs font-semibold text-principal md:text-sm">
+          <span className="text-xs font-bold text-texto-suave md:text-sm">
             {currentPage + 1} / {totalPages}
           </span>
         </div>
-        <div className="h-3 w-full rounded-full bg-borde overflow-hidden md:h-4">
+        <div className="progress-bar-duo">
           <div
-            className="h-full bg-resaltado transition-all duration-500"
+            className="fill bg-resaltado"
             style={{
               width: `${((currentPage + 1) / totalPages) * 100}%`,
             }}
@@ -75,7 +77,7 @@ export default function TheorySection({
 
       {/* Contenido de la sección */}
       <div className="w-full max-w-2xl">
-        <div className="rounded-xl border-2 border-borde bg-blanco p-4 shadow-lg sm:rounded-2xl sm:p-6 md:p-8">
+        <div className="card-duo p-4 sm:p-6 md:p-8">
           {/* Icono y título de la sección */}
           <div className="flex items-center gap-3 mb-4 md:mb-6">
             <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-resaltado/20 text-2xl md:h-14 md:w-14 md:text-3xl">
@@ -97,7 +99,7 @@ export default function TheorySection({
                 )}
 
                 {block.type === "highlight" && (
-                  <div className="rounded-lg border-2 border-resaltado bg-resaltado/10 p-3 md:p-4">
+                  <div className="rounded-xl border-2 border-resaltado/50 bg-resaltado/10 p-3 md:p-4">
                     <p className="text-sm font-medium text-principal leading-relaxed md:text-base">
                       💡 {block.value}
                     </p>
@@ -105,7 +107,7 @@ export default function TheorySection({
                 )}
 
                 {block.type === "example" && (
-                  <div className="rounded-lg border-2 border-exito bg-exito/10 p-3 md:p-4">
+                  <div className="rounded-xl border-2 border-exito/50 bg-exito/10 p-3 md:p-4">
                     <p className="text-xs font-bold text-principal mb-1 md:text-sm">
                       Ejemplo:
                     </p>
@@ -116,7 +118,7 @@ export default function TheorySection({
                 )}
 
                 {block.type === "steps" && (
-                  <div className="rounded-lg border-2 border-borde bg-fondo p-3 md:p-4">
+                  <div className="rounded-xl border-2 border-borde bg-fondo p-3 md:p-4">
                     <p className="text-xs font-bold text-principal mb-2 md:text-sm">
                       Pasos:
                     </p>
@@ -126,7 +128,7 @@ export default function TheorySection({
                           key={j}
                           className="flex items-start gap-2 text-sm text-texto md:text-base"
                         >
-                          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-principal text-xs font-bold text-blanco mt-0.5">
+                          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-acento text-xs font-bold text-white mt-0.5">
                             {j + 1}
                           </span>
                           <span>{item}</span>
@@ -137,7 +139,7 @@ export default function TheorySection({
                 )}
 
                 {block.type === "image-description" && (
-                  <div className="rounded-lg border-2 border-borde bg-fondo/50 p-4 text-center md:p-6">
+                  <div className="rounded-xl border-2 border-borde bg-fondo/50 p-4 text-center md:p-6">
                     <span className="text-4xl md:text-5xl">{block.emoji}</span>
                     <p className="mt-2 text-xs text-texto-suave italic md:text-sm">
                       {block.value}
