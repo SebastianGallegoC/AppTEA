@@ -12,6 +12,7 @@ const MODULE_LEVEL_ICONS: Record<string, string[]> = {
 
 interface LevelMapProps {
   onLevelSelect?: () => void;
+  onReviewTheory?: () => void;
 }
 
 interface LineData {
@@ -34,15 +35,13 @@ function useIsMobile(breakpoint = 768) {
   return isMobile;
 }
 
-export default function LevelMap({ onLevelSelect }: LevelMapProps) {
-  const { currentLevelId, completedLevels, setCurrentLevel, currentModuleId } =
-    useAppStore();
+export default function LevelMap({ onLevelSelect, onReviewTheory }: LevelMapProps) {
+  const { currentLevelId, completedLevels, setCurrentLevel, currentModuleId } = useAppStore();
   const currentModule = MODULES.find((m) => m.id === currentModuleId);
   const moduleLevels = LEVELS.filter(
     (l) => l.concept === (currentModule?.concept ?? "Secuenciación"),
   );
-  const levelIcons =
-    MODULE_LEVEL_ICONS[currentModule?.concept ?? "Secuenciación"] ?? [];
+  const levelIcons = MODULE_LEVEL_ICONS[currentModule?.concept ?? "Secuenciación"] ?? [];
   const moduleCompletedCount = moduleLevels.filter((l) =>
     completedLevels.includes(l.id),
   ).length;
@@ -139,13 +138,25 @@ export default function LevelMap({ onLevelSelect }: LevelMapProps) {
     <div className="flex min-h-screen flex-col items-center bg-fondo px-3 py-6 md:px-4 md:py-8">
       {/* Header */}
       <div className="mb-6 w-full max-w-2xl md:mb-8">
-        <h1 className="text-2xl font-bold text-principal md:text-3xl">
-          {currentModule?.title ?? "Módulo"}
-        </h1>
-        <p className="mt-1 text-base text-texto-suave md:mt-2 md:text-lg">
-          Completa todos los niveles para dominar{" "}
-          {(currentModule?.concept ?? "el módulo").toLowerCase()}
-        </p>
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <h1 className="text-2xl font-bold text-principal md:text-3xl">
+              {currentModule?.title ?? "Módulo"}
+            </h1>
+            <p className="mt-1 text-base text-texto-suave md:mt-2 md:text-lg">
+              Completa todos los niveles para dominar {(currentModule?.concept ?? "el módulo").toLowerCase()}
+            </p>
+          </div>
+          {onReviewTheory && (
+            <button
+              onClick={onReviewTheory}
+              className="shrink-0 inline-flex items-center gap-2 rounded-lg border-2 border-resaltado bg-resaltado/10 px-4 py-2 text-sm font-semibold text-principal transition-colors hover:bg-resaltado/20 focus-visible:outline-2 focus-visible:outline-resaltado focus-visible:outline-offset-2"
+            >
+              <span>📖</span>
+              Repasar teoría
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Barra de progreso general */}
@@ -211,8 +222,7 @@ export default function LevelMap({ onLevelSelect }: LevelMapProps) {
               const isAccessible =
                 isCurrent ||
                 isCompleted ||
-                (index > 0 &&
-                  completedLevels.includes(moduleLevels[index - 1].id)) ||
+                (index > 0 && completedLevels.includes(moduleLevels[index - 1].id)) ||
                 index === 0;
 
               // En móvil: zigzag horizontal; en desktop: zigzag vertical
@@ -270,7 +280,7 @@ export default function LevelMap({ onLevelSelect }: LevelMapProps) {
                     >
                       <span className="text-3xl md:text-5xl">
                         {isAccessible || isCompleted
-                          ? (levelIcons[index % levelIcons.length] ?? "❓")
+                          ? levelIcons[index % levelIcons.length] ?? "❓"
                           : "🔒"}
                       </span>
 

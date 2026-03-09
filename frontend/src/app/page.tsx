@@ -127,7 +127,12 @@ export default function Home() {
       )}
 
       {/* Vista de Mapa (tipo Duolingo) */}
-      {viewMode === "map" && <LevelMap onLevelSelect={handleLevelSelect} />}
+      {viewMode === "map" && (
+        <LevelMap
+          onLevelSelect={handleLevelSelect}
+          onReviewTheory={() => setViewMode("theory")}
+        />
+      )}
 
       {/* Vista de Ejercicio (centrada, tipo Duolingo) */}
       {viewMode === "exercise" && (
