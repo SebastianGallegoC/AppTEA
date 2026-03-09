@@ -588,6 +588,46 @@ export const MODULE_THEORIES: Record<string, ModuleTheory> = {
         ],
       },
       {
+        title: "Crear variables en código: let y const",
+        icon: "🔤",
+        content: [
+          {
+            type: "text",
+            value:
+              "En JavaScript (el lenguaje que usaremos en la práctica), para crear una variable escribimos una palabra clave seguida del nombre y el valor. Las dos palabras clave principales son let y const.",
+          },
+          {
+            type: "highlight",
+            value:
+              "let sirve para crear variables cuyo valor puede cambiar después. const sirve para crear variables cuyo valor no cambiará nunca.",
+          },
+          {
+            type: "example",
+            value:
+              'let edad = 12 → La variable "edad" vale 12 y puede cambiar más adelante.\nconst nombre = "Ana" → La variable "nombre" vale "Ana" y no se puede cambiar.',
+          },
+          {
+            type: "steps",
+            items: [
+              "let → el valor puede cambiar (variable)",
+              "const → el valor no cambia (constante)",
+              "= → significa \"asignar\" o \"guardar\" el valor",
+              "Primero va la palabra clave, luego el nombre, luego = y luego el valor",
+            ],
+          },
+          {
+            type: "example",
+            value:
+              "let puntos = 0 → Creamos la variable puntos con valor 0.\npuntos = 10 → Cambiamos el valor a 10. Esto funciona porque usamos let.\n\nconst color = \"azul\" → Creamos la constante color.\ncolor = \"rojo\" → ¡Error! No se puede cambiar porque usamos const.",
+          },
+          {
+            type: "highlight",
+            value:
+              "En la práctica, usarás bloques como let, const, = y los nombres de variables para construir instrucciones de código válidas.",
+          },
+        ],
+      },
+      {
         title: "¿Por qué son importantes las variables?",
         icon: "⭐",
         content: [
