@@ -115,39 +115,39 @@ export const LEVELS: Level[] = [
   },
   {
     id: "nivel-3-secuenciacion",
-    title: "Nivel 3: Lavarse las manos",
+    title: "Nivel 3: Sacar un libro de la biblioteca",
     description:
-      "Ordena los pasos para lavarse las manos correctamente y prevenir enfermedades.",
+      "Ordena los pasos para pedir prestado un libro en la biblioteca.",
     concept: "Secuenciación",
     steps: [
       {
         id: "paso-1",
-        text: "Abrir el grifo con agua tibia",
+        text: "Entrar a la biblioteca",
         order: 1,
       },
       {
         id: "paso-2",
-        text: "Mojar ambas manos completamente",
+        text: "Buscar el libro en la estantería",
         order: 2,
       },
       {
         id: "paso-3",
-        text: "Aplicar jabón en las palmas",
+        text: "Llevar el libro al mostrador",
         order: 3,
       },
       {
         id: "paso-4",
-        text: "Frotar las manos durante 20 segundos",
+        text: "Entregar el carné de biblioteca al bibliotecario",
         order: 4,
       },
       {
         id: "paso-5",
-        text: "Enjuagar con agua hasta quitar todo el jabón",
+        text: "Esperar a que el bibliotecario registre el préstamo",
         order: 5,
       },
       {
         id: "paso-6",
-        text: "Secar las manos con una toalla limpia",
+        text: "Guardar el libro en la mochila y salir",
         order: 6,
       },
     ],
@@ -198,44 +198,44 @@ export const LEVELS: Level[] = [
   },
   {
     id: "nivel-5-secuenciacion",
-    title: "Nivel 5: Preparar la mochila",
+    title: "Nivel 5: Imprimir un documento",
     description:
-      "Ordena los pasos para preparar una mochila antes de salir de casa.",
+      "Ordena los pasos para imprimir un documento desde el computador.",
     concept: "Secuenciación",
     steps: [
       {
         id: "paso-1",
-        text: "Verificar qué necesitas llevar",
+        text: "Encender el computador e iniciar sesión",
         order: 1,
       },
       {
         id: "paso-2",
-        text: "Colocar la billetera y las llaves",
+        text: "Abrir el archivo que quieres imprimir",
         order: 2,
       },
       {
         id: "paso-3",
-        text: "Guardar el teléfono móvil",
+        text: "Verificar que la impresora esté encendida y conectada",
         order: 3,
       },
       {
         id: "paso-4",
-        text: "Agregar una botella de agua",
+        text: "Presionar el botón de imprimir en el programa",
         order: 4,
       },
       {
         id: "paso-5",
-        text: "Incluir documentos importantes si los necesitas",
+        text: "Seleccionar la impresora y la cantidad de copias",
         order: 5,
       },
       {
         id: "paso-6",
-        text: "Cerrar bien la mochila",
+        text: "Confirmar la impresión presionando Aceptar",
         order: 6,
       },
       {
         id: "paso-7",
-        text: "Colocar la mochila en tu espalda",
+        text: "Recoger el documento de la bandeja de la impresora",
         order: 7,
       },
     ],
