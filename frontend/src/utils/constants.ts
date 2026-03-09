@@ -76,39 +76,39 @@ export const LEVELS: Level[] = [
   },
   {
     id: "nivel-2-secuenciacion",
-    title: "Nivel 2: Preparar un sándwich",
+    title: "Nivel 2: Enviar un correo electrónico",
     description:
-      "Ordena los pasos para preparar un sándwich de jamón y queso correctamente.",
+      "Ordena los pasos para enviar un correo electrónico correctamente.",
     concept: "Secuenciación",
     steps: [
       {
         id: "paso-1",
-        text: "Sacar dos rebanadas de pan",
+        text: "Abrir la aplicación de correo electrónico",
         order: 1,
       },
       {
         id: "paso-2",
-        text: "Colocar una rebanada de jamón en el pan",
+        text: "Presionar el botón de nuevo mensaje",
         order: 2,
       },
       {
         id: "paso-3",
-        text: "Colocar una rebanada de queso sobre el jamón",
+        text: "Escribir la dirección del destinatario",
         order: 3,
       },
       {
         id: "paso-4",
-        text: "Agregar lechuga y tomate si deseas",
+        text: "Escribir el asunto del correo",
         order: 4,
       },
       {
         id: "paso-5",
-        text: "Cubrir con la segunda rebanada de pan",
+        text: "Escribir el mensaje en el cuerpo del correo",
         order: 5,
       },
       {
         id: "paso-6",
-        text: "Cortar el sándwich a la mitad",
+        text: "Presionar el botón de enviar",
         order: 6,
       },
     ],
