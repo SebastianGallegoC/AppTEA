@@ -51,3 +51,15 @@ export interface ModuleTheory {
   description: string;
   sections: TheorySection[];
 }
+
+/* ─── Interfaces para módulos ─── */
+
+export interface Module {
+  id: string;
+  title: string;
+  description: string;
+  icon: string;
+  concept: string;
+  isAvailable: boolean;
+  totalLevels: number;
+}

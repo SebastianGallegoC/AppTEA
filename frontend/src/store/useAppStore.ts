@@ -9,12 +9,14 @@ interface AppState {
   completedLevels: string[];
   isSandboxMode: boolean;
   theoryCompleted: boolean;
+  currentModuleId: string;
   setUser: (username: string | null) => void;
   setCurrentLevel: (levelId: string) => void;
   completeLevel: (levelId: string) => void;
   resetProgress: () => void;
   setSandboxMode: (active: boolean) => void;
   completeTheory: () => void;
+  setCurrentModule: (moduleId: string) => void;
 }
 
 export const useAppStore = create<AppState>()(
@@ -25,6 +27,7 @@ export const useAppStore = create<AppState>()(
       completedLevels: [],
       isSandboxMode: false,
       theoryCompleted: false,
+      currentModuleId: "",
 
       setUser: (username) => set({ currentUser: username }),
 
@@ -44,6 +47,8 @@ export const useAppStore = create<AppState>()(
       setSandboxMode: (active) => set({ isSandboxMode: active }),
 
       completeTheory: () => set({ theoryCompleted: true }),
+
+      setCurrentModule: (moduleId) => set({ currentModuleId: moduleId }),
     }),
     {
       name: "appTEA-store",
@@ -52,6 +57,7 @@ export const useAppStore = create<AppState>()(
         currentLevelId: state.currentLevelId,
         completedLevels: state.completedLevels,
         theoryCompleted: state.theoryCompleted,
+        currentModuleId: state.currentModuleId,
       }),
     },
   ),

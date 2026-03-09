@@ -7,6 +7,7 @@ import { useAppStore } from "@/store/useAppStore";
 import { useProgress } from "@/hooks/useProgress";
 import Header from "@/components/layout/Header";
 import LevelMap from "@/components/layout/LevelMap";
+import ModuleHub from "@/components/layout/ModuleHub";
 import SequenceEditor from "@/components/editor/SequenceEditor";
 import TheorySection from "@/components/theory/TheorySection";
 import GlossaryTerm from "@/components/ui/GlossaryTerm";
@@ -19,13 +20,15 @@ export default function Home() {
     completeLevel,
     theoryCompleted,
     completeTheory,
+    currentModuleId,
+    setCurrentModule,
   } = useAppStore();
   const { markLevelComplete } = useProgress(currentUser);
   const [result, setResult] = useState<ValidationResult | null>(null);
   const [levelCompleted, setLevelCompleted] = useState(false);
-  const [viewMode, setViewMode] = useState<"theory" | "map" | "exercise">(
-    theoryCompleted ? "map" : "theory",
-  );
+  const [viewMode, setViewMode] = useState<
+    "hub" | "theory" | "map" | "exercise"
+  >(currentModuleId ? (theoryCompleted ? "map" : "theory") : "hub");
   const isInitialMount = useRef(true);
 
   // Reiniciar estado cuando cambia el nivel
@@ -61,6 +64,19 @@ export default function Home() {
     setViewMode("map");
   }, []);
 
+  const handleBackToHub = useCallback(() => {
+    setCurrentModule("");
+    setViewMode("hub");
+  }, [setCurrentModule]);
+
+  const handleModuleSelect = useCallback(
+    (moduleId: string) => {
+      setCurrentModule(moduleId);
+      setViewMode(theoryCompleted ? "map" : "theory");
+    },
+    [setCurrentModule, theoryCompleted],
+  );
+
   const handleTheoryComplete = useCallback(() => {
     completeTheory();
     setViewMode("map");
@@ -77,12 +93,15 @@ export default function Home() {
         onBackToMap={
           viewMode === "exercise"
             ? handleBackToMap
-            : viewMode === "map"
-              ? () => setViewMode("theory")
+            : viewMode === "map" || viewMode === "theory"
+              ? handleBackToHub
               : undefined
         }
         showProgress={viewMode === "exercise"}
       />
+
+      {/* Vista de Hub (selección de módulo) */}
+      {viewMode === "hub" && <ModuleHub onModuleSelect={handleModuleSelect} />}
 
       {/* Vista de Teoría */}
       {viewMode === "theory" && (

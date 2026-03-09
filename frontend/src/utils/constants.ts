@@ -1,4 +1,43 @@
-import { Level, ModuleTheory } from "@/types";
+import { Level, Module, ModuleTheory } from "@/types";
+
+export const MODULES: Module[] = [
+  {
+    id: "modulo-secuenciacion",
+    title: "Secuenciación",
+    description: "Aprende a ordenar instrucciones paso a paso. El computador las ejecuta en el orden en que están escritas.",
+    icon: "📋",
+    concept: "Secuenciación",
+    isAvailable: true,
+    totalLevels: 5,
+  },
+  {
+    id: "modulo-variables",
+    title: "Variables",
+    description: "Descubre cómo guardar y usar datos con nombres. Las variables son espacios que almacenan información.",
+    icon: "📦",
+    concept: "Variables",
+    isAvailable: false,
+    totalLevels: 0,
+  },
+  {
+    id: "modulo-condicionales",
+    title: "Condicionales",
+    description: "Aprende a tomar decisiones en un programa. Si se cumple una condición, se ejecuta una acción.",
+    icon: "🔀",
+    concept: "Condicionales",
+    isAvailable: false,
+    totalLevels: 0,
+  },
+  {
+    id: "modulo-bucles",
+    title: "Bucles",
+    description: "Repite instrucciones de forma automática. Los bucles evitan escribir el mismo código muchas veces.",
+    icon: "🔄",
+    concept: "Bucles",
+    isAvailable: false,
+    totalLevels: 0,
+  },
+];
 
 export const LEVELS: Level[] = [
   {
