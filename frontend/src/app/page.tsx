@@ -22,8 +22,14 @@ export default function Home() {
     currentModuleId,
     setCurrentModule,
     setCurrentLevel,
+    isDarkMode,
   } = useAppStore();
   const { markLevelComplete } = useProgress(currentUser);
+
+  // Sincronizar clase dark con el documento
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", isDarkMode);
+  }, [isDarkMode]);
 
   const currentModule = MODULES.find((m) => m.id === currentModuleId);
   const moduleConcept = currentModule?.concept ?? "";

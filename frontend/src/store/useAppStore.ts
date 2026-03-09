@@ -10,6 +10,7 @@ interface AppState {
   isSandboxMode: boolean;
   theoryCompletedModules: string[];
   currentModuleId: string;
+  isDarkMode: boolean;
   setUser: (username: string | null) => void;
   setCurrentLevel: (levelId: string) => void;
   completeLevel: (levelId: string) => void;
@@ -17,6 +18,7 @@ interface AppState {
   setSandboxMode: (active: boolean) => void;
   completeTheory: (moduleId: string) => void;
   setCurrentModule: (moduleId: string) => void;
+  toggleDarkMode: () => void;
 }
 
 export const useAppStore = create<AppState>()(
@@ -28,6 +30,7 @@ export const useAppStore = create<AppState>()(
       isSandboxMode: false,
       theoryCompletedModules: [],
       currentModuleId: "",
+      isDarkMode: false,
 
       setUser: (username) => set({ currentUser: username }),
 
@@ -54,6 +57,8 @@ export const useAppStore = create<AppState>()(
       },
 
       setCurrentModule: (moduleId) => set({ currentModuleId: moduleId }),
+
+      toggleDarkMode: () => set((s) => ({ isDarkMode: !s.isDarkMode })),
     }),
     {
       name: "appTEA-store",
@@ -63,6 +68,7 @@ export const useAppStore = create<AppState>()(
         completedLevels: state.completedLevels,
         theoryCompletedModules: state.theoryCompletedModules,
         currentModuleId: state.currentModuleId,
+        isDarkMode: state.isDarkMode,
       }),
     },
   ),
