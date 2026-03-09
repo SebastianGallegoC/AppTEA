@@ -8,14 +8,14 @@ interface AppState {
   currentLevelId: string;
   completedLevels: string[];
   isSandboxMode: boolean;
-  theoryCompleted: boolean;
+  theoryCompletedModules: string[];
   currentModuleId: string;
   setUser: (username: string | null) => void;
   setCurrentLevel: (levelId: string) => void;
   completeLevel: (levelId: string) => void;
   resetProgress: () => void;
   setSandboxMode: (active: boolean) => void;
-  completeTheory: () => void;
+  completeTheory: (moduleId: string) => void;
   setCurrentModule: (moduleId: string) => void;
 }
 
@@ -26,7 +26,7 @@ export const useAppStore = create<AppState>()(
       currentLevelId: "nivel-1-secuenciacion",
       completedLevels: [],
       isSandboxMode: false,
-      theoryCompleted: false,
+      theoryCompletedModules: [],
       currentModuleId: "",
 
       setUser: (username) => set({ currentUser: username }),
@@ -42,11 +42,16 @@ export const useAppStore = create<AppState>()(
       },
 
       resetProgress: () =>
-        set({ completedLevels: [], isSandboxMode: false, theoryCompleted: false }),
+        set({ completedLevels: [], isSandboxMode: false, theoryCompletedModules: [] }),
 
       setSandboxMode: (active) => set({ isSandboxMode: active }),
 
-      completeTheory: () => set({ theoryCompleted: true }),
+      completeTheory: (moduleId) => {
+        const { theoryCompletedModules } = get();
+        if (!theoryCompletedModules.includes(moduleId)) {
+          set({ theoryCompletedModules: [...theoryCompletedModules, moduleId] });
+        }
+      },
 
       setCurrentModule: (moduleId) => set({ currentModuleId: moduleId }),
     }),
@@ -56,7 +61,7 @@ export const useAppStore = create<AppState>()(
         currentUser: state.currentUser,
         currentLevelId: state.currentLevelId,
         completedLevels: state.completedLevels,
-        theoryCompleted: state.theoryCompleted,
+        theoryCompletedModules: state.theoryCompletedModules,
         currentModuleId: state.currentModuleId,
       }),
     },

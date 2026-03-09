@@ -1,7 +1,7 @@
 "use client";
 
 import { useAppStore } from "@/store/useAppStore";
-import { LEVELS } from "@/utils/constants";
+import { LEVELS, MODULES } from "@/utils/constants";
 
 interface HeaderProps {
   onBackToMap?: () => void;
@@ -12,9 +12,15 @@ export default function Header({
   onBackToMap,
   showProgress = false,
 }: HeaderProps) {
-  const { completedLevels, currentLevelId } = useAppStore();
-  const currentLevelIndex = LEVELS.findIndex((l) => l.id === currentLevelId);
-  const currentLevel = LEVELS[currentLevelIndex];
+  const { completedLevels, currentLevelId, currentModuleId } = useAppStore();
+  const currentModule = MODULES.find((m) => m.id === currentModuleId);
+  const moduleLevels = LEVELS.filter(
+    (l) => l.concept === (currentModule?.concept ?? ""),
+  );
+  const currentLevelIndex = moduleLevels.findIndex(
+    (l) => l.id === currentLevelId,
+  );
+  const currentLevel = moduleLevels[currentLevelIndex];
 
   return (
     <header className="sticky top-0 z-10 border-b-2 border-borde bg-blanco shadow-sm">
@@ -40,14 +46,14 @@ export default function Header({
                   Nivel {currentLevelIndex + 1}
                 </span>
                 <span>
-                  {currentLevelIndex + 1} / {LEVELS.length}
+                  {currentLevelIndex + 1} / {moduleLevels.length}
                 </span>
               </div>
               <div className="h-3 w-full overflow-hidden rounded-full bg-borde">
                 <div
                   className="h-full bg-principal transition-all duration-300"
                   style={{
-                    width: `${((currentLevelIndex + 1) / LEVELS.length) * 100}%`,
+                    width: `${((currentLevelIndex + 1) / moduleLevels.length) * 100}%`,
                   }}
                 />
               </div>

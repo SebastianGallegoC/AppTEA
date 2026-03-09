@@ -16,8 +16,8 @@ export const MODULES: Module[] = [
     description: "Descubre cómo guardar y usar datos con nombres. Las variables son espacios que almacenan información.",
     icon: "📦",
     concept: "Variables",
-    isAvailable: false,
-    totalLevels: 0,
+    isAvailable: true,
+    totalLevels: 5,
   },
   {
     id: "modulo-condicionales",
@@ -240,10 +240,85 @@ export const LEVELS: Level[] = [
       },
     ],
   },
+  {
+    id: "nivel-1-variables",
+    title: "Nivel 1: Crear una variable",
+    description:
+      "Ordena los pasos para crear y guardar un dato en una variable.",
+    concept: "Variables",
+    steps: [
+      { id: "paso-1", text: "Decidir qué dato necesitas guardar", order: 1 },
+      { id: "paso-2", text: "Elegir un nombre claro para la variable", order: 2 },
+      { id: "paso-3", text: "Escribir el tipo de dato (número o texto)", order: 3 },
+      { id: "paso-4", text: "Asignar un valor inicial a la variable", order: 4 },
+      { id: "paso-5", text: "Verificar que el valor se guardó correctamente", order: 5 },
+    ],
+  },
+  {
+    id: "nivel-2-variables",
+    title: "Nivel 2: Cambiar el valor de una variable",
+    description:
+      "Ordena los pasos para modificar el valor almacenado en una variable.",
+    concept: "Variables",
+    steps: [
+      { id: "paso-1", text: "Identificar la variable que quieres cambiar", order: 1 },
+      { id: "paso-2", text: "Leer el valor actual de la variable", order: 2 },
+      { id: "paso-3", text: "Decidir cuál será el nuevo valor", order: 3 },
+      { id: "paso-4", text: "Asignar el nuevo valor a la variable", order: 4 },
+      { id: "paso-5", text: "Comprobar que el valor cambió correctamente", order: 5 },
+    ],
+  },
+  {
+    id: "nivel-3-variables",
+    title: "Nivel 3: Sumar dos variables",
+    description:
+      "Ordena los pasos para sumar los valores de dos variables y guardar el resultado.",
+    concept: "Variables",
+    steps: [
+      { id: "paso-1", text: "Crear la variable 'numeroA' con valor 5", order: 1 },
+      { id: "paso-2", text: "Crear la variable 'numeroB' con valor 3", order: 2 },
+      { id: "paso-3", text: "Crear la variable 'resultado' sin valor", order: 3 },
+      { id: "paso-4", text: "Calcular la suma: numeroA + numeroB", order: 4 },
+      { id: "paso-5", text: "Guardar la suma en la variable 'resultado'", order: 5 },
+      { id: "paso-6", text: "Mostrar el valor de 'resultado' en pantalla", order: 6 },
+    ],
+  },
+  {
+    id: "nivel-4-variables",
+    title: "Nivel 4: Intercambiar dos valores",
+    description:
+      "Ordena los pasos para intercambiar los valores de dos variables usando una variable temporal.",
+    concept: "Variables",
+    steps: [
+      { id: "paso-1", text: "Crear variable 'a' con valor 10", order: 1 },
+      { id: "paso-2", text: "Crear variable 'b' con valor 20", order: 2 },
+      { id: "paso-3", text: "Crear variable 'temporal' y guardar el valor de 'a'", order: 3 },
+      { id: "paso-4", text: "Asignar el valor de 'b' a la variable 'a'", order: 4 },
+      { id: "paso-5", text: "Asignar el valor de 'temporal' a la variable 'b'", order: 5 },
+      { id: "paso-6", text: "Verificar: ahora 'a' vale 20 y 'b' vale 10", order: 6 },
+    ],
+  },
+  {
+    id: "nivel-5-variables",
+    title: "Nivel 5: Guardar datos del usuario",
+    description:
+      "Ordena los pasos para pedir datos al usuario y guardarlos en variables.",
+    concept: "Variables",
+    steps: [
+      { id: "paso-1", text: "Mostrar un mensaje pidiendo el nombre del usuario", order: 1 },
+      { id: "paso-2", text: "Leer lo que el usuario escribe", order: 2 },
+      { id: "paso-3", text: "Guardar el nombre en la variable 'nombre'", order: 3 },
+      { id: "paso-4", text: "Mostrar un mensaje pidiendo la edad del usuario", order: 4 },
+      { id: "paso-5", text: "Leer el número que el usuario escribe", order: 5 },
+      { id: "paso-6", text: "Guardar la edad en la variable 'edad'", order: 6 },
+      { id: "paso-7", text: "Mostrar en pantalla: 'Hola [nombre], tienes [edad] años'", order: 7 },
+    ],
+  },
 ];
 
-export const MODULE_THEORY: ModuleTheory = {
-  moduleId: "modulo-1",
+export const MODULE_THEORIES: Record<string, ModuleTheory> = {
+  "modulo-secuenciacion": {
+  moduleId: "modulo-secuenciacion",
   title: "Módulo 1: ¿Qué es la Secuenciación?",
   description:
     "Aprende qué significa ordenar pasos y por qué es importante en la vida diaria y en la programación.",
@@ -358,6 +433,123 @@ export const MODULE_THEORY: ModuleTheory = {
       ],
     },
   ],
+  },
+  "modulo-variables": {
+    moduleId: "modulo-variables",
+    title: "Módulo 2: ¿Qué son las Variables?",
+    description:
+      "Aprende qué son las variables, cómo se usan y por qué son importantes en la programación.",
+    sections: [
+      {
+        title: "¿Qué es una variable?",
+        icon: "📦",
+        content: [
+          {
+            type: "text",
+            value:
+              "Una variable es como una caja con un nombre donde puedes guardar un dato. Así como guardas tus cosas en cajas etiquetadas, en programación guardas información en variables con nombre.",
+          },
+          {
+            type: "highlight",
+            value:
+              "Una variable tiene dos partes: un nombre (la etiqueta de la caja) y un valor (lo que hay dentro de la caja).",
+          },
+          {
+            type: "example",
+            value:
+              "edad = 12. Aquí 'edad' es el nombre de la variable y 12 es el valor que guarda.",
+          },
+          {
+            type: "image-description",
+            emoji: "📦",
+            value:
+              "Imagina una caja con la etiqueta 'edad' y dentro tiene el número 12.",
+          },
+        ],
+      },
+      {
+        title: "Tipos de datos en variables",
+        icon: "🏷️",
+        content: [
+          {
+            type: "text",
+            value:
+              "Las variables pueden guardar diferentes tipos de datos. Los más comunes son: números, textos y valores de verdadero o falso.",
+          },
+          {
+            type: "steps",
+            items: [
+              "Números: edad = 12, precio = 5.50",
+              "Textos: nombre = 'Ana', color = 'azul'",
+              "Verdadero o falso: esMayor = verdadero",
+            ],
+          },
+          {
+            type: "highlight",
+            value:
+              "Es importante usar el tipo de dato correcto. No puedes sumar un texto con un número.",
+          },
+          {
+            type: "example",
+            value:
+              "Si nombre = 'Carlos' y edad = 10, puedes mostrar: 'Carlos tiene 10 años'.",
+          },
+        ],
+      },
+      {
+        title: "Usar y cambiar variables",
+        icon: "✏️",
+        content: [
+          {
+            type: "text",
+            value:
+              "Una vez que creas una variable, puedes usar su valor en operaciones. También puedes cambiar el valor de una variable en cualquier momento.",
+          },
+          {
+            type: "example",
+            value:
+              "puntos = 0 → El jugador gana 5 puntos → puntos = puntos + 5 → Ahora puntos vale 5.",
+          },
+          {
+            type: "highlight",
+            value:
+              "Cuando cambias el valor de una variable, el valor anterior se reemplaza. Solo se guarda el último valor asignado.",
+          },
+          {
+            type: "image-description",
+            emoji: "🔄",
+            value:
+              "La caja 'puntos' primero tiene un 0, luego se reemplaza por un 5.",
+          },
+        ],
+      },
+      {
+        title: "¿Por qué son importantes las variables?",
+        icon: "⭐",
+        content: [
+          {
+            type: "text",
+            value:
+              "Sin variables, un programa no podría recordar nada. Las variables permiten que el programa guarde datos, haga cálculos y responda según la información del usuario.",
+          },
+          {
+            type: "steps",
+            items: [
+              "Guardan información del usuario (nombre, edad)",
+              "Permiten hacer cálculos (sumar, restar)",
+              "Recuerdan el estado del programa (puntuación, nivel)",
+              "Hacen los programas dinámicos e interactivos",
+            ],
+          },
+          {
+            type: "highlight",
+            value:
+              "En los niveles prácticos que verás a continuación, tu trabajo será ordenar los pasos para crear y usar variables correctamente.",
+          },
+        ],
+      },
+    ],
+  },
 };
 
 export const GLOSSARY: Record<string, string> = {

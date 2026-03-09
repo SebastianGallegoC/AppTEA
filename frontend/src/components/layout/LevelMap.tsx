@@ -1,11 +1,14 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import { LEVELS } from "@/utils/constants";
+import { LEVELS, MODULES } from "@/utils/constants";
 import { useAppStore } from "@/store/useAppStore";
 
-// Iconos para cada nivel (tipo Duolingo)
-const LEVEL_ICONS = ["🚶", "📧", "📚", "📱", "🖨️"];
+// Iconos para cada nivel por módulo
+const MODULE_LEVEL_ICONS: Record<string, string[]> = {
+  Secuenciación: ["🚶", "📧", "📚", "📱", "🖨️"],
+  Variables: ["📦", "✏️", "🧮", "↔️", "👤"],
+};
 
 interface LevelMapProps {
   onLevelSelect?: () => void;
@@ -32,7 +35,17 @@ function useIsMobile(breakpoint = 768) {
 }
 
 export default function LevelMap({ onLevelSelect }: LevelMapProps) {
-  const { currentLevelId, completedLevels, setCurrentLevel } = useAppStore();
+  const { currentLevelId, completedLevels, setCurrentLevel, currentModuleId } =
+    useAppStore();
+  const currentModule = MODULES.find((m) => m.id === currentModuleId);
+  const moduleLevels = LEVELS.filter(
+    (l) => l.concept === (currentModule?.concept ?? "Secuenciación"),
+  );
+  const levelIcons =
+    MODULE_LEVEL_ICONS[currentModule?.concept ?? "Secuenciación"] ?? [];
+  const moduleCompletedCount = moduleLevels.filter((l) =>
+    completedLevels.includes(l.id),
+  ).length;
   const containerRef = useRef<HTMLDivElement>(null);
   const circleRefs = useRef<(HTMLDivElement | null)[]>([]);
   const trophyRef = useRef<HTMLDivElement>(null);
@@ -43,7 +56,7 @@ export default function LevelMap({ onLevelSelect }: LevelMapProps) {
     const isAccessible =
       levelId === currentLevelId ||
       completedLevels.includes(levelId) ||
-      (index > 0 && completedLevels.includes(LEVELS[index - 1].id)) ||
+      (index > 0 && completedLevels.includes(moduleLevels[index - 1].id)) ||
       index === 0;
 
     if (isAccessible) {
@@ -92,16 +105,16 @@ export default function LevelMap({ onLevelSelect }: LevelMapProps) {
       const y2 = currCenterY - Math.sin(angle) * currRadius;
 
       const isLevelCompleted =
-        i < LEVELS.length
-          ? completedLevels.includes(LEVELS[i].id) ||
-            completedLevels.includes(LEVELS[i - 1].id)
-          : completedLevels.length === LEVELS.length;
+        i < moduleLevels.length
+          ? completedLevels.includes(moduleLevels[i].id) ||
+            completedLevels.includes(moduleLevels[i - 1].id)
+          : moduleCompletedCount === moduleLevels.length;
 
       newLines.push({ x1, y1, x2, y2, completed: isLevelCompleted });
     }
 
     setLines(newLines);
-  }, [completedLevels]);
+  }, [completedLevels, moduleLevels]);
 
   useEffect(() => {
     const timer = setTimeout(calculateLines, 100);
@@ -127,10 +140,11 @@ export default function LevelMap({ onLevelSelect }: LevelMapProps) {
       {/* Header */}
       <div className="mb-6 w-full max-w-2xl md:mb-8">
         <h1 className="text-2xl font-bold text-principal md:text-3xl">
-          Módulo 1: Secuenciación
+          {currentModule?.title ?? "Módulo"}
         </h1>
         <p className="mt-1 text-base text-texto-suave md:mt-2 md:text-lg">
-          Completa todos los niveles para dominar la secuenciación
+          Completa todos los niveles para dominar{" "}
+          {(currentModule?.concept ?? "el módulo").toLowerCase()}
         </p>
       </div>
 
@@ -141,14 +155,14 @@ export default function LevelMap({ onLevelSelect }: LevelMapProps) {
             Progreso del módulo
           </span>
           <span className="text-xs font-semibold text-principal md:text-sm">
-            {completedLevels.length} / {LEVELS.length}
+            {moduleCompletedCount} / {moduleLevels.length}
           </span>
         </div>
         <div className="h-3 w-full rounded-full bg-borde overflow-hidden md:h-4">
           <div
             className="h-full bg-exito transition-all duration-500"
             style={{
-              width: `${(completedLevels.length / LEVELS.length) * 100}%`,
+              width: `${(moduleCompletedCount / moduleLevels.length) * 100}%`,
             }}
           />
         </div>
@@ -191,13 +205,14 @@ export default function LevelMap({ onLevelSelect }: LevelMapProps) {
                 : "flex gap-24 items-center"
             }`}
           >
-            {LEVELS.map((level, index) => {
+            {moduleLevels.map((level, index) => {
               const isCurrent = level.id === currentLevelId;
               const isCompleted = completedLevels.includes(level.id);
               const isAccessible =
                 isCurrent ||
                 isCompleted ||
-                (index > 0 && completedLevels.includes(LEVELS[index - 1].id)) ||
+                (index > 0 &&
+                  completedLevels.includes(moduleLevels[index - 1].id)) ||
                 index === 0;
 
               // En móvil: zigzag horizontal; en desktop: zigzag vertical
@@ -255,7 +270,7 @@ export default function LevelMap({ onLevelSelect }: LevelMapProps) {
                     >
                       <span className="text-3xl md:text-5xl">
                         {isAccessible || isCompleted
-                          ? LEVEL_ICONS[index % LEVEL_ICONS.length]
+                          ? (levelIcons[index % levelIcons.length] ?? "❓")
                           : "🔒"}
                       </span>
 
@@ -294,16 +309,16 @@ export default function LevelMap({ onLevelSelect }: LevelMapProps) {
                 ref={trophyRef}
                 className={`flex items-center justify-center rounded-full border-4 shadow-lg bg-blanco
                   h-16 w-16 md:h-24 md:w-24 ${
-                    completedLevels.length === LEVELS.length
+                    moduleCompletedCount === moduleLevels.length
                       ? "border-exito shadow-exito/50"
                       : "border-borde shadow-gray-300"
                   }`}
               >
                 <span className="text-3xl md:text-5xl">
-                  {completedLevels.length === LEVELS.length ? "🎉" : "🏆"}
+                  {moduleCompletedCount === moduleLevels.length ? "🎉" : "🏆"}
                 </span>
               </div>
-              {completedLevels.length === LEVELS.length && (
+              {moduleCompletedCount === moduleLevels.length && (
                 <p className="mt-2 text-xs font-bold text-exito whitespace-nowrap md:text-sm">
                   ¡Completado!
                 </p>

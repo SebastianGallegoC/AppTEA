@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useEffect, useRef } from "react";
 import { ValidationResult } from "@/types";
-import { LEVELS } from "@/utils/constants";
+import { LEVELS, MODULES, GLOSSARY } from "@/utils/constants";
 import { useAppStore } from "@/store/useAppStore";
 import { useProgress } from "@/hooks/useProgress";
 import Header from "@/components/layout/Header";
@@ -10,25 +10,31 @@ import LevelMap from "@/components/layout/LevelMap";
 import ModuleHub from "@/components/layout/ModuleHub";
 import SequenceEditor from "@/components/editor/SequenceEditor";
 import TheorySection from "@/components/theory/TheorySection";
-import GlossaryTerm from "@/components/ui/GlossaryTerm";
-import { GLOSSARY } from "@/utils/constants";
 
 export default function Home() {
   const {
     currentUser,
     currentLevelId,
     completeLevel,
-    theoryCompleted,
+    theoryCompletedModules,
     completeTheory,
     currentModuleId,
     setCurrentModule,
+    setCurrentLevel,
   } = useAppStore();
   const { markLevelComplete } = useProgress(currentUser);
+
+  const currentModule = MODULES.find((m) => m.id === currentModuleId);
+  const moduleConcept = currentModule?.concept ?? "";
+
   const [result, setResult] = useState<ValidationResult | null>(null);
   const [levelCompleted, setLevelCompleted] = useState(false);
+  const isTheoryDone = currentModuleId
+    ? theoryCompletedModules.includes(currentModuleId)
+    : false;
   const [viewMode, setViewMode] = useState<
     "hub" | "theory" | "map" | "exercise"
-  >(currentModuleId ? (theoryCompleted ? "map" : "theory") : "hub");
+  >(currentModuleId ? (isTheoryDone ? "map" : "theory") : "hub");
   const isInitialMount = useRef(true);
 
   // Reiniciar estado cuando cambia el nivel
@@ -72,15 +78,23 @@ export default function Home() {
   const handleModuleSelect = useCallback(
     (moduleId: string) => {
       setCurrentModule(moduleId);
-      setViewMode(theoryCompleted ? "map" : "theory");
+      const mod = MODULES.find((m) => m.id === moduleId);
+      if (mod) {
+        const modLevels = LEVELS.filter((l) => l.concept === mod.concept);
+        if (modLevels.length > 0) {
+          setCurrentLevel(modLevels[0].id);
+        }
+      }
+      const done = theoryCompletedModules.includes(moduleId);
+      setViewMode(done ? "map" : "theory");
     },
-    [setCurrentModule, theoryCompleted],
+    [setCurrentModule, setCurrentLevel, theoryCompletedModules],
   );
 
   const handleTheoryComplete = useCallback(() => {
-    completeTheory();
+    completeTheory(currentModuleId);
     setViewMode("map");
-  }, [completeTheory]);
+  }, [completeTheory, currentModuleId]);
 
   const handleLevelSelect = useCallback(() => {
     setViewMode("exercise");
@@ -106,8 +120,9 @@ export default function Home() {
       {/* Vista de Teoría */}
       {viewMode === "theory" && (
         <TheorySection
+          moduleId={currentModuleId}
           onComplete={handleTheoryComplete}
-          isCompleted={theoryCompleted}
+          isCompleted={isTheoryDone}
         />
       )}
 
@@ -131,12 +146,12 @@ export default function Home() {
             {/* Panel de información (derecha del ejercicio) */}
             <div className="rounded-xl border-2 border-borde bg-blanco p-4 shadow-lg sm:rounded-2xl sm:p-6 lg:w-80 lg:shrink-0 lg:self-start">
               <h2 className="mb-4 text-lg font-semibold text-principal">
-                💡 Concepto: Secuenciación
+                💡 Concepto: {moduleConcept}
               </h2>
 
               <div className="rounded-lg border border-resaltado bg-resaltado/10 p-4 mb-4">
                 <p className="text-sm text-texto-suave leading-relaxed">
-                  {GLOSSARY["Secuenciación"]}
+                  {GLOSSARY[moduleConcept] ?? ""}
                 </p>
               </div>
 

@@ -1,19 +1,21 @@
 "use client";
 
 import { useState } from "react";
-import { MODULE_THEORY } from "@/utils/constants";
+import { MODULE_THEORIES } from "@/utils/constants";
 import Button from "@/components/ui/Button";
 
 interface TheorySectionProps {
+  moduleId: string;
   onComplete: () => void;
   isCompleted: boolean;
 }
 
 export default function TheorySection({
+  moduleId,
   onComplete,
   isCompleted,
 }: TheorySectionProps) {
-  const theory = MODULE_THEORY;
+  const theory = MODULE_THEORIES[moduleId];
   const [currentPage, setCurrentPage] = useState(0);
   const totalPages = theory.sections.length;
 

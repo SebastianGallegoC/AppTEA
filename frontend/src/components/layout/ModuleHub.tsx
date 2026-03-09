@@ -1,6 +1,6 @@
 "use client";
 
-import { MODULES } from "@/utils/constants";
+import { MODULES, LEVELS } from "@/utils/constants";
 import { useAppStore } from "@/store/useAppStore";
 import { Module } from "@/types";
 
@@ -12,10 +12,17 @@ export default function ModuleHub({ onModuleSelect }: ModuleHubProps) {
   const { completedLevels } = useAppStore();
 
   const getModuleProgress = (mod: Module) => {
-    if (!mod.isAvailable || mod.totalLevels === 0) return 0;
-    // For now only Module 1 levels are in completedLevels
-    const completed = completedLevels.length;
-    return Math.round((completed / mod.totalLevels) * 100);
+    if (!mod.isAvailable || mod.totalLevels === 0)
+      return { completed: 0, total: 0, percent: 0 };
+    const modLevels = LEVELS.filter((l) => l.concept === mod.concept);
+    const completed = modLevels.filter((l) =>
+      completedLevels.includes(l.id),
+    ).length;
+    return {
+      completed,
+      total: modLevels.length,
+      percent: Math.round((completed / modLevels.length) * 100),
+    };
   };
 
   return (
@@ -84,12 +91,12 @@ export default function ModuleHub({ onModuleSelect }: ModuleHubProps) {
                   <div className="mt-4">
                     <div className="mb-1 flex items-center justify-between text-xs text-texto-suave">
                       <span>Progreso</span>
-                      <span className="font-semibold">{progress}%</span>
+                      <span className="font-semibold">{progress.percent}%</span>
                     </div>
                     <div className="h-2.5 w-full overflow-hidden rounded-full bg-borde">
                       <div
                         className="h-full rounded-full bg-exito transition-all duration-300"
-                        style={{ width: `${progress}%` }}
+                        style={{ width: `${progress.percent}%` }}
                       />
                     </div>
                   </div>
@@ -98,8 +105,7 @@ export default function ModuleHub({ onModuleSelect }: ModuleHubProps) {
                 {/* Indicador de niveles */}
                 {isAvailable && (
                   <p className="mt-3 text-xs font-medium text-texto-suave">
-                    {completedLevels.length} / {mod.totalLevels} niveles
-                    completados
+                    {progress.completed} / {progress.total} niveles completados
                   </p>
                 )}
               </button>
