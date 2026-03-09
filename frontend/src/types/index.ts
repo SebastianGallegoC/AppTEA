@@ -6,12 +6,27 @@ export interface Step {
   order: number;
 }
 
+export interface Block {
+  id: string;
+  text: string;
+}
+
+export interface AnswerLine {
+  label: string;
+  correctAnswer: string[];
+}
+
 export interface Level {
   id: string;
   title: string;
   description: string;
   concept: string;
-  steps: Step[];
+  mode: "sequence" | "blocks";
+  steps?: Step[];
+  prompt?: string;
+  availableBlocks?: Block[];
+  correctAnswer?: string[];
+  answerLines?: AnswerLine[];
 }
 
 export interface ValidationResult {

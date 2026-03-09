@@ -9,6 +9,7 @@ import Header from "@/components/layout/Header";
 import LevelMap from "@/components/layout/LevelMap";
 import ModuleHub from "@/components/layout/ModuleHub";
 import SequenceEditor from "@/components/editor/SequenceEditor";
+import BlockEditor from "@/components/editor/BlockEditor";
 import TheorySection from "@/components/theory/TheorySection";
 
 export default function Home() {
@@ -140,12 +141,21 @@ export default function Home() {
           <div className="flex flex-col gap-4 lg:flex-row lg:gap-6">
             {/* Card del ejercicio */}
             <div className="rounded-xl border-2 border-borde bg-blanco p-3 shadow-lg sm:p-5 sm:rounded-2xl md:p-8 lg:flex-1">
-              <SequenceEditor
-                key={currentLevelId}
-                levelId={currentLevelId}
-                onResult={handleResult}
-                onLevelComplete={handleLevelComplete}
-              />
+              {currentLevel.mode === "blocks" ? (
+                <BlockEditor
+                  key={currentLevelId}
+                  levelId={currentLevelId}
+                  onResult={handleResult}
+                  onLevelComplete={handleLevelComplete}
+                />
+              ) : (
+                <SequenceEditor
+                  key={currentLevelId}
+                  levelId={currentLevelId}
+                  onResult={handleResult}
+                  onLevelComplete={handleLevelComplete}
+                />
+              )}
             </div>
 
             {/* Panel de información (derecha del ejercicio) */}
@@ -163,17 +173,37 @@ export default function Home() {
               <h3 className="mb-3 text-base font-semibold text-principal">
                 📋 Instrucciones
               </h3>
-              <ol className="space-y-2 list-decimal pl-5 text-sm text-texto-suave">
-                <li>Ordena los pasos usando los botones de Subir/Bajar.</li>
-                <li>También puedes arrastrar los pasos con el ratón.</li>
-                <li>
-                  Presiona &quot;Verificar secuencia&quot; cuando estés listo.
-                </li>
-                <li>
-                  Si necesitas empezar de nuevo, usa &quot;Volver al estado
-                  inicial&quot;.
-                </li>
-              </ol>
+              {currentLevel.mode === "blocks" ? (
+                <ol className="space-y-2 list-decimal pl-5 text-sm text-texto-suave">
+                  <li>Lee la instrucción que se muestra en el recuadro.</li>
+                  <li>
+                    Haz clic o arrastra los bloques correctos a la zona de
+                    respuesta.
+                  </li>
+                  <li>
+                    Ordena los bloques para formar la instrucción correcta.
+                  </li>
+                  <li>
+                    Presiona &quot;Verificar respuesta&quot; cuando estés listo.
+                  </li>
+                  <li>
+                    Si necesitas empezar de nuevo, usa &quot;Volver al estado
+                    inicial&quot;.
+                  </li>
+                </ol>
+              ) : (
+                <ol className="space-y-2 list-decimal pl-5 text-sm text-texto-suave">
+                  <li>Ordena los pasos usando los botones de Subir/Bajar.</li>
+                  <li>También puedes arrastrar los pasos con el ratón.</li>
+                  <li>
+                    Presiona &quot;Verificar secuencia&quot; cuando estés listo.
+                  </li>
+                  <li>
+                    Si necesitas empezar de nuevo, usa &quot;Volver al estado
+                    inicial&quot;.
+                  </li>
+                </ol>
+              )}
             </div>
           </div>
         </main>

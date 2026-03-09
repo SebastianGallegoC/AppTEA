@@ -51,7 +51,10 @@ export default function SequenceEditor({
   const level = LEVELS.find((l) => l.id === levelId) ?? LEVELS[0];
   const { isSandboxMode, setSandboxMode, setCurrentLevel } = useAppStore();
 
-  const initialSteps = useMemo(() => shuffleArray(level.steps), [level.steps]);
+  const initialSteps = useMemo(
+    () => shuffleArray(level.steps ?? []),
+    [level.steps],
+  );
   const [steps, setSteps] = useState<Step[]>(initialSteps);
   const [hasVerified, setHasVerified] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
@@ -117,7 +120,7 @@ export default function SequenceEditor({
 
     setTimeout(() => {
       const userOrder = steps.map((s) => s.id);
-      const validationResult = validateSequence(userOrder, level.steps);
+      const validationResult = validateSequence(userOrder, level.steps ?? []);
 
       setHasVerified(true);
       setResult(validationResult);
@@ -136,7 +139,7 @@ export default function SequenceEditor({
   }, [steps, level.steps, onResult, onLevelComplete]);
 
   const handleReset = useCallback(() => {
-    const newShuffled = shuffleArray(level.steps);
+    const newShuffled = shuffleArray(level.steps ?? []);
     setSteps(newShuffled);
     setHasVerified(false);
     setIsComplete(false);

@@ -46,6 +46,7 @@ export const LEVELS: Level[] = [
     description:
       "Ordena los pasos en el orden correcto para que el robot cruce la calle de forma segura.",
     concept: "Secuenciación",
+    mode: "sequence",
     steps: [
       {
         id: "paso-1",
@@ -80,6 +81,7 @@ export const LEVELS: Level[] = [
     description:
       "Ordena los pasos para enviar un correo electrónico correctamente.",
     concept: "Secuenciación",
+    mode: "sequence",
     steps: [
       {
         id: "paso-1",
@@ -119,6 +121,7 @@ export const LEVELS: Level[] = [
     description:
       "Ordena los pasos para pedir prestado un libro en la biblioteca.",
     concept: "Secuenciación",
+    mode: "sequence",
     steps: [
       {
         id: "paso-1",
@@ -158,6 +161,7 @@ export const LEVELS: Level[] = [
     description:
       "Ordena los pasos para hacer una llamada telefónica de manera correcta.",
     concept: "Secuenciación",
+    mode: "sequence",
     steps: [
       {
         id: "paso-1",
@@ -202,6 +206,7 @@ export const LEVELS: Level[] = [
     description:
       "Ordena los pasos para imprimir un documento desde el computador.",
     concept: "Secuenciación",
+    mode: "sequence",
     steps: [
       {
         id: "paso-1",
@@ -242,76 +247,135 @@ export const LEVELS: Level[] = [
   },
   {
     id: "nivel-1-variables",
-    title: "Nivel 1: Crear una variable",
+    title: "Nivel 1: Crear una variable numérica",
     description:
-      "Ordena los pasos para crear y guardar un dato en una variable.",
+      "Arrastra los bloques correctos para crear una variable llamada edad con el valor 15.",
     concept: "Variables",
-    steps: [
-      { id: "paso-1", text: "Decidir qué dato necesitas guardar", order: 1 },
-      { id: "paso-2", text: "Elegir un nombre claro para la variable", order: 2 },
-      { id: "paso-3", text: "Escribir el tipo de dato (número o texto)", order: 3 },
-      { id: "paso-4", text: "Asignar un valor inicial a la variable", order: 4 },
-      { id: "paso-5", text: "Verificar que el valor se guardó correctamente", order: 5 },
+    mode: "blocks",
+    prompt: "Crea una variable llamada edad que tenga de valor 15",
+    availableBlocks: [
+      { id: "b-let", text: "let" },
+      { id: "b-const", text: "const" },
+      { id: "b-edad", text: "edad" },
+      { id: "b-nombre", text: "nombre" },
+      { id: "b-equal", text: "=" },
+      { id: "b-15", text: "15" },
+      { id: "b-15str", text: '"15"' },
+      { id: "b-plus", text: "+" },
     ],
+    correctAnswer: ["b-let", "b-edad", "b-equal", "b-15"],
   },
   {
     id: "nivel-2-variables",
-    title: "Nivel 2: Cambiar el valor de una variable",
+    title: "Nivel 2: Crear una variable de texto",
     description:
-      "Ordena los pasos para modificar el valor almacenado en una variable.",
+      "Arrastra los bloques correctos para crear una variable llamada nombre con el valor \"Carlos\".",
     concept: "Variables",
-    steps: [
-      { id: "paso-1", text: "Identificar la variable que quieres cambiar", order: 1 },
-      { id: "paso-2", text: "Leer el valor actual de la variable", order: 2 },
-      { id: "paso-3", text: "Decidir cuál será el nuevo valor", order: 3 },
-      { id: "paso-4", text: "Asignar el nuevo valor a la variable", order: 4 },
-      { id: "paso-5", text: "Comprobar que el valor cambió correctamente", order: 5 },
+    mode: "blocks",
+    prompt: 'Crea una variable llamada nombre que tenga de valor "Carlos"',
+    availableBlocks: [
+      { id: "b-let", text: "let" },
+      { id: "b-var", text: "var" },
+      { id: "b-nombre", text: "nombre" },
+      { id: "b-edad", text: "edad" },
+      { id: "b-equal", text: "=" },
+      { id: "b-carlos", text: '"Carlos"' },
+      { id: "b-carlos-nq", text: "Carlos" },
+      { id: "b-10", text: "10" },
     ],
+    correctAnswer: ["b-let", "b-nombre", "b-equal", "b-carlos"],
   },
   {
     id: "nivel-3-variables",
     title: "Nivel 3: Sumar dos variables",
     description:
-      "Ordena los pasos para sumar los valores de dos variables y guardar el resultado.",
+      "Arrastra los bloques para crear dos variables y guardar su suma en una tercera.",
     concept: "Variables",
-    steps: [
-      { id: "paso-1", text: "Crear la variable 'numeroA' con valor 5", order: 1 },
-      { id: "paso-2", text: "Crear la variable 'numeroB' con valor 3", order: 2 },
-      { id: "paso-3", text: "Crear la variable 'resultado' sin valor", order: 3 },
-      { id: "paso-4", text: "Calcular la suma: numeroA + numeroB", order: 4 },
-      { id: "paso-5", text: "Guardar la suma en la variable 'resultado'", order: 5 },
-      { id: "paso-6", text: "Mostrar el valor de 'resultado' en pantalla", order: 6 },
+    mode: "blocks",
+    prompt: "Crea la variable a con valor 5, la variable b con valor 3 y la variable suma que guarde el resultado de a + b",
+    availableBlocks: [
+      { id: "b-let1", text: "let" },
+      { id: "b-let2", text: "let" },
+      { id: "b-let3", text: "let" },
+      { id: "b-a", text: "a" },
+      { id: "b-b", text: "b" },
+      { id: "b-suma", text: "suma" },
+      { id: "b-eq1", text: "=" },
+      { id: "b-eq2", text: "=" },
+      { id: "b-eq3", text: "=" },
+      { id: "b-5", text: "5" },
+      { id: "b-3", text: "3" },
+      { id: "b-plus", text: "+" },
+      { id: "b-minus", text: "-" },
+      { id: "b-a-ref", text: "a" },
+      { id: "b-b-ref", text: "b" },
+      { id: "b-8", text: "8" },
+    ],
+    correctAnswer: ["b-let1", "b-a", "b-eq1", "b-5", "b-let2", "b-b", "b-eq2", "b-3", "b-let3", "b-suma", "b-eq3", "b-a-ref", "b-plus", "b-b-ref"],
+    answerLines: [
+      { label: "Variable a", correctAnswer: ["b-let1", "b-a", "b-eq1", "b-5"] },
+      { label: "Variable b", correctAnswer: ["b-let2", "b-b", "b-eq2", "b-3"] },
+      { label: "Variable suma", correctAnswer: ["b-let3", "b-suma", "b-eq3", "b-a-ref", "b-plus", "b-b-ref"] },
     ],
   },
   {
     id: "nivel-4-variables",
-    title: "Nivel 4: Intercambiar dos valores",
+    title: "Nivel 4: Cambiar el valor de una variable",
     description:
-      "Ordena los pasos para intercambiar los valores de dos variables usando una variable temporal.",
+      "Arrastra los bloques para crear una variable y luego cambiar su valor.",
     concept: "Variables",
-    steps: [
-      { id: "paso-1", text: "Crear variable 'a' con valor 10", order: 1 },
-      { id: "paso-2", text: "Crear variable 'b' con valor 20", order: 2 },
-      { id: "paso-3", text: "Crear variable 'temporal' y guardar el valor de 'a'", order: 3 },
-      { id: "paso-4", text: "Asignar el valor de 'b' a la variable 'a'", order: 4 },
-      { id: "paso-5", text: "Asignar el valor de 'temporal' a la variable 'b'", order: 5 },
-      { id: "paso-6", text: "Verificar: ahora 'a' vale 20 y 'b' vale 10", order: 6 },
+    mode: "blocks",
+    prompt: 'Crea una variable llamada mensaje con valor "Hola" y luego cambia su valor a "Adiós"',
+    availableBlocks: [
+      { id: "b-let", text: "let" },
+      { id: "b-const", text: "const" },
+      { id: "b-mensaje", text: "mensaje" },
+      { id: "b-mensaje2", text: "mensaje" },
+      { id: "b-eq1", text: "=" },
+      { id: "b-eq2", text: "=" },
+      { id: "b-hola", text: '"Hola"' },
+      { id: "b-adios", text: '"Adiós"' },
+      { id: "b-hola-nq", text: "Hola" },
+      { id: "b-let2", text: "let" },
+    ],
+    correctAnswer: ["b-let", "b-mensaje", "b-eq1", "b-hola", "b-mensaje2", "b-eq2", "b-adios"],
+    answerLines: [
+      { label: "Crear variable mensaje", correctAnswer: ["b-let", "b-mensaje", "b-eq1", "b-hola"] },
+      { label: "Cambiar valor de mensaje", correctAnswer: ["b-mensaje2", "b-eq2", "b-adios"] },
     ],
   },
   {
     id: "nivel-5-variables",
-    title: "Nivel 5: Guardar datos del usuario",
+    title: "Nivel 5: Calcular el precio total",
     description:
-      "Ordena los pasos para pedir datos al usuario y guardarlos en variables.",
+      "Arrastra los bloques para crear variables de precio y cantidad, y calcular el total.",
     concept: "Variables",
-    steps: [
-      { id: "paso-1", text: "Mostrar un mensaje pidiendo el nombre del usuario", order: 1 },
-      { id: "paso-2", text: "Leer lo que el usuario escribe", order: 2 },
-      { id: "paso-3", text: "Guardar el nombre en la variable 'nombre'", order: 3 },
-      { id: "paso-4", text: "Mostrar un mensaje pidiendo la edad del usuario", order: 4 },
-      { id: "paso-5", text: "Leer el número que el usuario escribe", order: 5 },
-      { id: "paso-6", text: "Guardar la edad en la variable 'edad'", order: 6 },
-      { id: "paso-7", text: "Mostrar en pantalla: 'Hola [nombre], tienes [edad] años'", order: 7 },
+    mode: "blocks",
+    prompt: "Crea una variable precio con valor 50, una variable cantidad con valor 3 y una variable total que guarde el resultado de precio * cantidad",
+    availableBlocks: [
+      { id: "b-let1", text: "let" },
+      { id: "b-let2", text: "let" },
+      { id: "b-let3", text: "let" },
+      { id: "b-precio", text: "precio" },
+      { id: "b-cantidad", text: "cantidad" },
+      { id: "b-total", text: "total" },
+      { id: "b-eq1", text: "=" },
+      { id: "b-eq2", text: "=" },
+      { id: "b-eq3", text: "=" },
+      { id: "b-50", text: "50" },
+      { id: "b-3", text: "3" },
+      { id: "b-mult", text: "*" },
+      { id: "b-plus", text: "+" },
+      { id: "b-precio-ref", text: "precio" },
+      { id: "b-cantidad-ref", text: "cantidad" },
+      { id: "b-150", text: "150" },
+      { id: "b-var", text: "var" },
+    ],
+    correctAnswer: ["b-let1", "b-precio", "b-eq1", "b-50", "b-let2", "b-cantidad", "b-eq2", "b-3", "b-let3", "b-total", "b-eq3", "b-precio-ref", "b-mult", "b-cantidad-ref"],
+    answerLines: [
+      { label: "Variable precio", correctAnswer: ["b-let1", "b-precio", "b-eq1", "b-50"] },
+      { label: "Variable cantidad", correctAnswer: ["b-let2", "b-cantidad", "b-eq2", "b-3"] },
+      { label: "Variable total", correctAnswer: ["b-let3", "b-total", "b-eq3", "b-precio-ref", "b-mult", "b-cantidad-ref"] },
     ],
   },
 ];

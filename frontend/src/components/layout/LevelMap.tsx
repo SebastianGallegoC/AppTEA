@@ -35,13 +35,18 @@ function useIsMobile(breakpoint = 768) {
   return isMobile;
 }
 
-export default function LevelMap({ onLevelSelect, onReviewTheory }: LevelMapProps) {
-  const { currentLevelId, completedLevels, setCurrentLevel, currentModuleId } = useAppStore();
+export default function LevelMap({
+  onLevelSelect,
+  onReviewTheory,
+}: LevelMapProps) {
+  const { currentLevelId, completedLevels, setCurrentLevel, currentModuleId } =
+    useAppStore();
   const currentModule = MODULES.find((m) => m.id === currentModuleId);
   const moduleLevels = LEVELS.filter(
     (l) => l.concept === (currentModule?.concept ?? "Secuenciación"),
   );
-  const levelIcons = MODULE_LEVEL_ICONS[currentModule?.concept ?? "Secuenciación"] ?? [];
+  const levelIcons =
+    MODULE_LEVEL_ICONS[currentModule?.concept ?? "Secuenciación"] ?? [];
   const moduleCompletedCount = moduleLevels.filter((l) =>
     completedLevels.includes(l.id),
   ).length;
@@ -144,7 +149,8 @@ export default function LevelMap({ onLevelSelect, onReviewTheory }: LevelMapProp
               {currentModule?.title ?? "Módulo"}
             </h1>
             <p className="mt-1 text-base text-texto-suave md:mt-2 md:text-lg">
-              Completa todos los niveles para dominar {(currentModule?.concept ?? "el módulo").toLowerCase()}
+              Completa todos los niveles para dominar{" "}
+              {(currentModule?.concept ?? "el módulo").toLowerCase()}
             </p>
           </div>
           {onReviewTheory && (
@@ -222,7 +228,8 @@ export default function LevelMap({ onLevelSelect, onReviewTheory }: LevelMapProp
               const isAccessible =
                 isCurrent ||
                 isCompleted ||
-                (index > 0 && completedLevels.includes(moduleLevels[index - 1].id)) ||
+                (index > 0 &&
+                  completedLevels.includes(moduleLevels[index - 1].id)) ||
                 index === 0;
 
               // En móvil: zigzag horizontal; en desktop: zigzag vertical
@@ -280,7 +287,7 @@ export default function LevelMap({ onLevelSelect, onReviewTheory }: LevelMapProp
                     >
                       <span className="text-3xl md:text-5xl">
                         {isAccessible || isCompleted
-                          ? levelIcons[index % levelIcons.length] ?? "❓"
+                          ? (levelIcons[index % levelIcons.length] ?? "❓")
                           : "🔒"}
                       </span>
 
