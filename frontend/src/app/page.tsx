@@ -24,7 +24,7 @@ export default function Home() {
   const [result, setResult] = useState<ValidationResult | null>(null);
   const [levelCompleted, setLevelCompleted] = useState(false);
   const [viewMode, setViewMode] = useState<"theory" | "map" | "exercise">(
-    "theory",
+    theoryCompleted ? "map" : "theory",
   );
   const isInitialMount = useRef(true);
 

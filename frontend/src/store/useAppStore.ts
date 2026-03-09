@@ -1,6 +1,7 @@
 "use client";
 
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 interface AppState {
   currentUser: string | null;
@@ -16,29 +17,42 @@ interface AppState {
   completeTheory: () => void;
 }
 
-export const useAppStore = create<AppState>((set, get) => ({
-  currentUser: null,
-  currentLevelId: "nivel-1-secuenciacion",
-  completedLevels: [],
-  isSandboxMode: false,
-  theoryCompleted: false,
+export const useAppStore = create<AppState>()(
+  persist(
+    (set, get) => ({
+      currentUser: null,
+      currentLevelId: "nivel-1-secuenciacion",
+      completedLevels: [],
+      isSandboxMode: false,
+      theoryCompleted: false,
 
-  setUser: (username) => set({ currentUser: username }),
+      setUser: (username) => set({ currentUser: username }),
 
-  setCurrentLevel: (levelId) =>
-    set({ currentLevelId: levelId, isSandboxMode: false }),
+      setCurrentLevel: (levelId) =>
+        set({ currentLevelId: levelId, isSandboxMode: false }),
 
-  completeLevel: (levelId) => {
-    const { completedLevels } = get();
-    if (!completedLevels.includes(levelId)) {
-      set({ completedLevels: [...completedLevels, levelId] });
-    }
-  },
+      completeLevel: (levelId) => {
+        const { completedLevels } = get();
+        if (!completedLevels.includes(levelId)) {
+          set({ completedLevels: [...completedLevels, levelId] });
+        }
+      },
 
-  resetProgress: () =>
-    set({ completedLevels: [], isSandboxMode: false, theoryCompleted: false }),
+      resetProgress: () =>
+        set({ completedLevels: [], isSandboxMode: false, theoryCompleted: false }),
 
-  setSandboxMode: (active) => set({ isSandboxMode: active }),
+      setSandboxMode: (active) => set({ isSandboxMode: active }),
 
-  completeTheory: () => set({ theoryCompleted: true }),
-}));
+      completeTheory: () => set({ theoryCompleted: true }),
+    }),
+    {
+      name: "appTEA-store",
+      partialize: (state) => ({
+        currentUser: state.currentUser,
+        currentLevelId: state.currentLevelId,
+        completedLevels: state.completedLevels,
+        theoryCompleted: state.theoryCompleted,
+      }),
+    },
+  ),
+);
