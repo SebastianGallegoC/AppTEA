@@ -37,6 +37,8 @@ export default function Home() {
     "hub" | "theory" | "map" | "exercise"
   >(currentModuleId ? (isTheoryDone ? "map" : "theory") : "hub");
   const isInitialMount = useRef(true);
+  // Flag to skip the exercise-switch when entering a module (theory/map)
+  const isModuleEntryRef = useRef(false);
 
   // Reiniciar estado cuando cambia el nivel
   useEffect(() => {
@@ -44,10 +46,15 @@ export default function Home() {
     setLevelCompleted(false);
   }, [currentLevelId]);
 
-  // Cambiar a vista de ejercicio cuando se selecciona un nivel (excepto en carga inicial)
+  // Cambiar a vista de ejercicio cuando se selecciona un nivel desde el mapa
   useEffect(() => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
+      return;
+    }
+    // Skip when the level change comes from entering a module (not from the map)
+    if (isModuleEntryRef.current) {
+      isModuleEntryRef.current = false;
       return;
     }
     if (currentLevelId) {
@@ -79,10 +86,13 @@ export default function Home() {
   const handleModuleSelect = useCallback(
     (moduleId: string) => {
       setCurrentModule(moduleId);
+      // Set the first level of the module so LevelMap highlights it,
+      // but do NOT trigger the exercise view — that only happens from the map.
       const mod = MODULES.find((m) => m.id === moduleId);
       if (mod) {
         const modLevels = LEVELS.filter((l) => l.concept === mod.concept);
         if (modLevels.length > 0) {
+          isModuleEntryRef.current = true;
           setCurrentLevel(modLevels[0].id);
         }
       }
