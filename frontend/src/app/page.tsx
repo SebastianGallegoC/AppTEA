@@ -116,43 +116,45 @@ export default function Home() {
 
       {/* Vista de Ejercicio (centrada, tipo Duolingo) */}
       {viewMode === "exercise" && (
-        <main className="mx-auto max-w-4xl px-3 py-4 sm:px-4 sm:py-6 md:py-8">
-          {/* Card del ejercicio */}
-          <div className="rounded-xl border-2 border-borde bg-blanco p-3 shadow-lg sm:p-5 sm:rounded-2xl md:p-8">
-            <SequenceEditor
-              key={currentLevelId}
-              levelId={currentLevelId}
-              onResult={handleResult}
-              onLevelComplete={handleLevelComplete}
-            />
-          </div>
-
-          {/* Panel de información (abajo del ejercicio) */}
-          <div className="mt-4 rounded-xl border-2 border-borde bg-blanco p-4 shadow-lg sm:mt-6 sm:rounded-2xl sm:p-6">
-            <h2 className="mb-4 text-lg font-semibold text-principal">
-              💡 Concepto: Secuenciación
-            </h2>
-
-            <div className="rounded-lg border border-resaltado bg-resaltado/10 p-4 mb-4">
-              <p className="text-sm text-texto-suave leading-relaxed">
-                {GLOSSARY["Secuenciación"]}
-              </p>
+        <main className="mx-auto max-w-7xl px-3 py-4 sm:px-4 sm:py-6 md:py-8">
+          <div className="flex flex-col gap-4 lg:flex-row lg:gap-6">
+            {/* Card del ejercicio */}
+            <div className="rounded-xl border-2 border-borde bg-blanco p-3 shadow-lg sm:p-5 sm:rounded-2xl md:p-8 lg:flex-1">
+              <SequenceEditor
+                key={currentLevelId}
+                levelId={currentLevelId}
+                onResult={handleResult}
+                onLevelComplete={handleLevelComplete}
+              />
             </div>
 
-            <h3 className="mb-3 text-base font-semibold text-principal">
-              📋 Instrucciones
-            </h3>
-            <ol className="space-y-2 list-decimal pl-5 text-sm text-texto-suave">
-              <li>Ordena los pasos usando los botones de Subir/Bajar.</li>
-              <li>También puedes arrastrar los pasos con el ratón.</li>
-              <li>
-                Presiona &quot;Verificar secuencia&quot; cuando estés listo.
-              </li>
-              <li>
-                Si necesitas empezar de nuevo, usa &quot;Volver al estado
-                inicial&quot;.
-              </li>
-            </ol>
+            {/* Panel de información (derecha del ejercicio) */}
+            <div className="rounded-xl border-2 border-borde bg-blanco p-4 shadow-lg sm:rounded-2xl sm:p-6 lg:w-80 lg:shrink-0 lg:self-start">
+              <h2 className="mb-4 text-lg font-semibold text-principal">
+                💡 Concepto: Secuenciación
+              </h2>
+
+              <div className="rounded-lg border border-resaltado bg-resaltado/10 p-4 mb-4">
+                <p className="text-sm text-texto-suave leading-relaxed">
+                  {GLOSSARY["Secuenciación"]}
+                </p>
+              </div>
+
+              <h3 className="mb-3 text-base font-semibold text-principal">
+                📋 Instrucciones
+              </h3>
+              <ol className="space-y-2 list-decimal pl-5 text-sm text-texto-suave">
+                <li>Ordena los pasos usando los botones de Subir/Bajar.</li>
+                <li>También puedes arrastrar los pasos con el ratón.</li>
+                <li>
+                  Presiona &quot;Verificar secuencia&quot; cuando estés listo.
+                </li>
+                <li>
+                  Si necesitas empezar de nuevo, usa &quot;Volver al estado
+                  inicial&quot;.
+                </li>
+              </ol>
+            </div>
           </div>
         </main>
       )}
