@@ -43,6 +43,8 @@ export default function Home() {
   const [viewMode, setViewMode] = useState<
     "hub" | "theory" | "map" | "exercise"
   >(currentModuleId ? (isTheoryDone ? "map" : "theory") : "hub");
+  const [isInfoExpanded, setIsInfoExpanded] = useState(true);
+  const [isRightPanelExpanded, setIsRightPanelExpanded] = useState(true);
   const isInitialMount = useRef(true);
   const isModuleEntryRef = useRef(false);
 
@@ -133,7 +135,10 @@ export default function Home() {
       />
 
       {/* Right Panel (estadísticas) */}
-      <RightPanel />
+      <RightPanel 
+        isExpanded={isRightPanelExpanded} 
+        onToggle={() => setIsRightPanelExpanded(!isRightPanelExpanded)} 
+      />
 
       {/* Header top bar */}
       <Header
@@ -148,7 +153,7 @@ export default function Home() {
       />
 
       {/* Contenido principal con offset para sidebar */}
-      <div className="lg:pl-56 xl:pr-72 pb-20 lg:pb-0">
+      <div className={`lg:pl-56 pb-20 lg:pb-0 transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] ${isRightPanelExpanded ? 'xl:pr-72' : 'xl:pr-20'}`}>
         {/* Vista de Hub */}
         {viewMode === "hub" && (
           <ModuleHub onModuleSelect={handleModuleSelect} />
@@ -196,62 +201,85 @@ export default function Home() {
 
               {/* Panel de información */}
               <div className="card-duo p-4 sm:p-5 lg:w-72 lg:shrink-0 lg:self-start">
-                <div className="flex items-center gap-2 mb-4">
-                  <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-resaltado/20 text-lg">
-                    💡
+                <button
+                  onClick={() => setIsInfoExpanded(!isInfoExpanded)}
+                  className="flex w-full items-center justify-between mb-2 text-principal hover:bg-resaltado/10 p-2 rounded-lg transition-colors focus-visible:outline-resaltado"
+                  aria-expanded={isInfoExpanded}
+                  aria-controls="info-panel-content"
+                >
+                  <span className="font-bold">Información y Conceptos</span>
+                  <span
+                    className={`transform transition-transform duration-500 delay-75 ${isInfoExpanded ? "rotate-180" : "rotate-0"}`}
+                  >
+                    ▼
                   </span>
-                  <h2 className="text-base font-bold text-principal">
-                    {moduleConcept}
-                  </h2>
-                </div>
+                </button>
 
-                <div className="rounded-xl border-2 border-resaltado/50 bg-resaltado/10 p-3 mb-4">
-                  <p className="text-sm text-texto-suave leading-relaxed">
-                    {GLOSSARY[moduleConcept] ?? ""}
-                  </p>
-                </div>
+                <div
+                  id="info-panel-content"
+                  className={`grid transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] ${
+                    isInfoExpanded ? "grid-rows-[1fr] opacity-100 mt-2" : "grid-rows-[0fr] opacity-0 mt-0"
+                  }`}
+                >
+                  <div className="overflow-hidden">
+                    <div className="flex items-center gap-2 mb-4">
+                      <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-resaltado/20 text-lg">
+                        💡
+                      </span>
+                      <h2 className="text-base font-bold text-principal">
+                        {moduleConcept}
+                      </h2>
+                    </div>
 
-                <div className="flex items-center gap-2 mb-3">
-                  <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-exito/15 text-lg">
-                    📋
-                  </span>
-                  <h3 className="text-sm font-bold text-principal">
-                    Instrucciones
-                  </h3>
+                    <div className="rounded-xl border-2 border-resaltado/50 bg-resaltado/10 p-3 mb-4">
+                      <p className="text-sm text-texto-suave leading-relaxed">
+                        {GLOSSARY[moduleConcept] ?? ""}
+                      </p>
+                    </div>
+
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-exito/15 text-lg">
+                        📋
+                      </span>
+                      <h3 className="text-sm font-bold text-principal">
+                        Instrucciones
+                      </h3>
+                    </div>
+                    {currentLevel.mode === "blocks" ? (
+                      <ol className="space-y-2 list-decimal pl-5 text-sm text-texto-suave">
+                        <li>Lee la instrucción que se muestra en el recuadro.</li>
+                        <li>
+                          Haz clic o arrastra los bloques correctos a la zona de
+                          respuesta.
+                        </li>
+                        <li>
+                          Ordena los bloques para formar la instrucción correcta.
+                        </li>
+                        <li>
+                          Presiona &quot;Verificar respuesta&quot; cuando estés
+                          listo.
+                        </li>
+                        <li>
+                          Si necesitas empezar de nuevo, usa &quot;Volver al estado
+                          inicial&quot;.
+                        </li>
+                      </ol>
+                    ) : (
+                      <ol className="space-y-2 list-decimal pl-5 text-sm text-texto-suave">
+                        <li>Ordena los pasos usando los botones de Subir/Bajar.</li>
+                        <li>También puedes arrastrar los pasos con el ratón.</li>
+                        <li>
+                          Presiona &quot;Verificar secuencia&quot; cuando estés
+                          listo.
+                        </li>
+                        <li>
+                          Si necesitas empezar de nuevo, usa &quot;Volver al estado
+                          inicial&quot;.
+                        </li>
+                      </ol>
+                    )}
+                  </div>
                 </div>
-                {currentLevel.mode === "blocks" ? (
-                  <ol className="space-y-2 list-decimal pl-5 text-sm text-texto-suave">
-                    <li>Lee la instrucción que se muestra en el recuadro.</li>
-                    <li>
-                      Haz clic o arrastra los bloques correctos a la zona de
-                      respuesta.
-                    </li>
-                    <li>
-                      Ordena los bloques para formar la instrucción correcta.
-                    </li>
-                    <li>
-                      Presiona &quot;Verificar respuesta&quot; cuando estés
-                      listo.
-                    </li>
-                    <li>
-                      Si necesitas empezar de nuevo, usa &quot;Volver al estado
-                      inicial&quot;.
-                    </li>
-                  </ol>
-                ) : (
-                  <ol className="space-y-2 list-decimal pl-5 text-sm text-texto-suave">
-                    <li>Ordena los pasos usando los botones de Subir/Bajar.</li>
-                    <li>También puedes arrastrar los pasos con el ratón.</li>
-                    <li>
-                      Presiona &quot;Verificar secuencia&quot; cuando estés
-                      listo.
-                    </li>
-                    <li>
-                      Si necesitas empezar de nuevo, usa &quot;Volver al estado
-                      inicial&quot;.
-                    </li>
-                  </ol>
-                )}
               </div>
             </div>
           </main>

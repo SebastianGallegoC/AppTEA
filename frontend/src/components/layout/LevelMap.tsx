@@ -315,9 +315,12 @@ export default function LevelMap({
                       Nivel {index + 1}
                     </p>
                     {isAccessible && !isCompleted && (
-                      <span className="btn-3d btn-3d-primary inline-block mt-1.5 rounded-xl px-4 py-1 text-[10px] font-bold md:px-5 md:py-1.5 md:text-xs">
+                      <button
+                        onClick={() => handleLevelClick(level.id, index)}
+                        className="btn-3d btn-3d-primary inline-block mt-1.5 rounded-xl px-4 py-1 text-[10px] font-bold md:px-5 md:py-1.5 md:text-xs hover:scale-105 active:scale-95 transition-transform"
+                      >
                         {index === 0 ? "EMPEZAR" : "INICIAR"}
-                      </span>
+                      </button>
                     )}
                   </div>
                 </div>

@@ -61,17 +61,17 @@ export const LEVELS: Level[] = [
       {
         id: "paso-3",
         text: "El robot mira hacia la derecha",
-        order: 3,
+        order: 2,
       },
       {
         id: "paso-4",
         text: "El robot confirma que no hay autos",
-        order: 4,
+        order: 3,
       },
       {
         id: "paso-5",
         text: "El robot cruza la calle",
-        order: 5,
+        order: 4,
       },
     ],
   },

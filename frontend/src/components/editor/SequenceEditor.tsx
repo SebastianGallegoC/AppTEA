@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useEffect, useRef } from "react";
 import {
   DndContext,
   closestCenter,
@@ -61,6 +61,18 @@ export default function SequenceEditor({
   const [isValidating, setIsValidating] = useState(false);
   const [result, setResult] = useState<ValidationResult | null>(null);
   const [errorStepId, setErrorStepId] = useState<string | null>(null);
+  const resultRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (result && result.isCorrect) {
+      setTimeout(() => {
+        resultRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      }, 300); // Pequeño delay adicional para asegurar renderizado, luego scroll suave
+    }
+  }, [result]);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -86,9 +98,7 @@ export default function SequenceEditor({
 
         if (hasVerified) {
           setHasVerified(false);
-          setResult(null);
           setErrorStepId(null);
-          onResult(null);
         }
       }
     },
@@ -170,7 +180,7 @@ export default function SequenceEditor({
         <SortableContext items={stepIds} strategy={verticalListSortingStrategy}>
           <ol
             aria-label="Pasos de la secuencia para ordenar"
-            className="list-none space-y-2 pl-0"
+            className="list-none space-y-4 pl-0"
           >
             {steps.map((step, index) => (
               <SortableStep
@@ -207,7 +217,8 @@ export default function SequenceEditor({
 
       {isComplete && !isSandboxMode && (
         <div
-          className="mt-4 rounded-2xl border-4 border-exito bg-gradient-to-br from-exito/30 to-exito/10 p-6 text-center shadow-lg"
+          ref={resultRef}
+          className="mt-4 rounded-2xl border-4 border-exito bg-gradient-to-br from-exito/30 to-exito/10 p-6 text-center shadow-lg transition-all duration-700 ease-in-out"
           role="status"
           aria-live="polite"
         >

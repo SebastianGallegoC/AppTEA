@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useEffect, useRef } from "react";
 import {
   DndContext,
   KeyboardSensor,
@@ -186,6 +186,18 @@ export default function BlockEditor({
   const [isComplete, setIsComplete] = useState(false);
   const [isValidating, setIsValidating] = useState(false);
   const [result, setResult] = useState<ValidationResult | null>(null);
+  const resultRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (result && result.isCorrect) {
+      setTimeout(() => {
+        resultRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      }, 300);
+    }
+  }, [result]);
 
   // Same module-filtered levels for navigation
   const moduleLevels = LEVELS.filter((l) => l.concept === level.concept);
@@ -209,10 +221,8 @@ export default function BlockEditor({
   const clearVerification = useCallback(() => {
     if (hasVerified) {
       setHasVerified(false);
-      setResult(null);
-      onResult(null);
     }
-  }, [hasVerified, onResult]);
+  }, [hasVerified]);
 
   // Find which zone a block belongs to
   const findBlockLocation = useCallback(
@@ -643,7 +653,8 @@ export default function BlockEditor({
       {/* Level Complete */}
       {isComplete && !isSandboxMode && (
         <div
-          className="mt-4 rounded-2xl border-4 border-exito bg-gradient-to-br from-exito/30 to-exito/10 p-6 text-center shadow-lg"
+          ref={resultRef}
+          className="mt-4 rounded-2xl border-4 border-exito bg-gradient-to-br from-exito/30 to-exito/10 p-6 text-center shadow-lg transition-all duration-700 ease-in-out"
           role="status"
           aria-live="polite"
         >
